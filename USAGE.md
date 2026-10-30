@@ -463,6 +463,8 @@ A track counts as played when it plays to the end. When you skip to another trac
 
 **Export settings**, under **Settings → General**, saves the options on the Settings screen, plus the theme, true black, dynamic color and accent color, to a JSON file you choose. **Import settings** restores them from that file and reloads the app. Values the app does not offer, for example from an edited file, are skipped. Server logins, the music library choice and storage locations are not included, so after a reinstall you sign in again first and then import.
 
+If your server supports the OpenSubsonic `playbackReport` extension, Tempus instead tells it when a song or podcast starts, plays, pauses and stops, along with its position and playback speed, and the server decides which plays count; the rules above then do not apply. A track is reported stopped when playback moves off it, the queue is cleared, or Tempus closes. A track you skip past while paused is not reported at all.
+
 [Back to top](#table-of-contents)
 
 ## Android Auto
