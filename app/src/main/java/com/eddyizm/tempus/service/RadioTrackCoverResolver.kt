@@ -21,8 +21,10 @@ private val titleNoise = Regex(
     RegexOption.IGNORE_CASE
 )
 
+private val titleSuffix = Regex("""\s*(\[[^\]]*]|\((19|20)\d{2}\))\s*$""")
+
 internal fun cleanTitle(raw: String): String =
-    raw.replace(titleNoise, "").trim().ifEmpty { raw }
+    raw.replace(titleNoise, "").replace(titleSuffix, "").trim().ifEmpty { raw }
 
 internal fun luceneEscape(s: String): String = s.replace("\\", " ").replace("\"", " ")
 
@@ -38,12 +40,17 @@ internal fun normalizeArtist(s: String): String =
 
 internal fun primaryArtist(s: String): String = s.split(artistSeparator, limit = 2).first().trim().ifEmpty { s.trim() }
 
-private fun wantedArtists(artist: String) = setOf(normalizeArtist(artist), normalizeArtist(primaryArtist(artist)))
+private fun wantedArtists(artist: String) =
+    (artist.split(artistSeparator).flatMap { it.split("/") } + artist).map { normalizeArtist(it) }.filter { it.isNotEmpty() }.toSet()
 
-private fun isSameSong(foundArtist: String, foundTitle: String, artist: String, title: String): Boolean {
-    if (normalizeArtist(foundArtist) !in wantedArtists(artist)) return false
+private fun isWantedArtist(found: String, wanted: Set<String>) =
+    normalizeArtist(found) in wanted || normalizeArtist(primaryArtist(found)) in wanted
+
+private fun isSameSong(foundArtist: String, foundTitle: String, artist: String, title: String, exactTitle: Boolean): Boolean {
+    if (!isWantedArtist(foundArtist, wantedArtists(artist))) return false
     val found = normalizeText(foundTitle)
     val wanted = normalizeText(title)
+    if (exactTitle) return wanted.isNotEmpty() && found == wanted
     return wanted.isNotEmpty() && found.isNotEmpty() && (found.contains(wanted) || wanted.contains(found))
 }
 
@@ -56,8 +63,8 @@ private fun JSONObject.isRecordingOf(artist: String, title: String): Boolean {
     val wanted = wantedArtists(artist)
     return (0 until credits.length()).any { i ->
         val credit = credits.getJSONObject(i)
-        normalizeArtist(credit.optString("name")) in wanted ||
-            normalizeArtist(credit.optJSONObject("artist")?.optString("name").orEmpty()) in wanted
+        isWantedArtist(credit.optString("name"), wanted) ||
+            isWantedArtist(credit.optJSONObject("artist")?.optString("name").orEmpty(), wanted)
     }
 }
 
@@ -91,11 +98,11 @@ internal fun isSameRadioSong(
     title: String?,
 ): Boolean = currentMediaId == startedMediaId && isRadio && radioArtist == artist && radioTitle == title
 
-internal fun deezerCover(json: String, artist: String, title: String): String? {
+internal fun deezerCover(json: String, artist: String, title: String, exactTitle: Boolean = false): String? {
     val data = JSONObject(json).optJSONArray("data") ?: return null
     for (i in 0 until data.length()) {
         val track = data.getJSONObject(i)
-        if (isSameSong(track.getJSONObject("artist").optString("name"), track.optString("title"), artist, title)) {
+        if (isSameSong(track.getJSONObject("artist").optString("name"), track.optString("title"), artist, title, exactTitle)) {
             val url = track.getJSONObject("album").optString("cover_xl")
             if (url.isNotEmpty()) return url
         }
@@ -103,11 +110,11 @@ internal fun deezerCover(json: String, artist: String, title: String): String? {
     return null
 }
 
-internal fun itunesCover(json: String, artist: String, title: String): String? {
+internal fun itunesCover(json: String, artist: String, title: String, exactTitle: Boolean = false): String? {
     val results = JSONObject(json).optJSONArray("results") ?: return null
     for (i in 0 until results.length()) {
         val track = results.getJSONObject(i)
-        if (isSameSong(track.optString("artistName"), track.optString("trackName"), artist, title)) {
+        if (isSameSong(track.optString("artistName"), track.optString("trackName"), artist, title, exactTitle)) {
             val url = track.optString("artworkUrl100").replace("100x100bb", "600x600bb")
             if (url.isNotEmpty()) return url
         }
@@ -151,10 +158,14 @@ class RadioTrackCoverResolver(
             null
         }
 
-        val cleaned = cleanTitle(title)
-        val url = guarded("MusicBrainz") { fromMusicBrainz(artist, cleaned) }
-            ?: guarded("Deezer") { fromDeezer(artist, cleaned) }
-            ?: guarded("iTunes") { fromItunes(artist, cleaned) }
+        fun find(artist: String, title: String, exactTitle: Boolean): String? {
+            val cleaned = cleanTitle(title)
+            return guarded("MusicBrainz") { fromMusicBrainz(artist, cleaned) }
+                ?: guarded("Deezer") { fromDeezer(artist, cleaned, exactTitle) }
+                ?: guarded("iTunes") { fromItunes(artist, cleaned, exactTitle) }
+        }
+        // Some stations send "Title - Artist". The swapped try is a guess, so the title must be equal.
+        val url = find(artist, title, false) ?: if (failed) null else find(title, artist, true)
         if (url != null || !failed) synchronized(cache) { cache[key] = url ?: "" }
         return url
     }
@@ -170,11 +181,11 @@ class RadioTrackCoverResolver(
             .firstOrNull { exists(it) }
     }
 
-    private fun fromDeezer(artist: String, title: String): String? =
-        deezerCover(body("https://api.deezer.com/search?limit=5&q=${enc("${primaryArtist(artist)} $title")}"), artist, title)
+    private fun fromDeezer(artist: String, title: String, exactTitle: Boolean): String? =
+        deezerCover(body("https://api.deezer.com/search?limit=5&q=${enc("${primaryArtist(artist)} $title")}"), artist, title, exactTitle)
 
-    private fun fromItunes(artist: String, title: String): String? =
-        itunesCover(body("https://itunes.apple.com/search?entity=song&limit=5&term=${enc("${primaryArtist(artist)} $title")}"), artist, title)
+    private fun fromItunes(artist: String, title: String, exactTitle: Boolean): String? =
+        itunesCover(body("https://itunes.apple.com/search?entity=song&limit=5&term=${enc("${primaryArtist(artist)} $title")}"), artist, title, exactTitle)
 
     companion object {
         val instance = RadioTrackCoverResolver()

@@ -22,6 +22,13 @@ class RadioTrackCoverResolverTest {
     }
 
     @Test
+    fun `cleanTitle removes a trailing year or bracket code`() {
+        assertEquals("Live is life", cleanTitle("Live is life (1985)"))
+        assertEquals("Flutter", cleanTitle("Flutter [2LPe]"))
+        assertEquals("1999", cleanTitle("1999"))
+    }
+
+    @Test
     fun `luceneEscape removes quotes and backslash`() {
         assertEquals("a b c", luceneEscape("a\"b\\c"))
     }
@@ -138,6 +145,15 @@ class RadioTrackCoverResolverTest {
     }
 
     @Test
+    fun `deezerCover accepts any artist of a list and the first artist of the credit`() {
+        fun json(artist: String) = """{"data":[{"title":"Song","artist":{"name":"$artist"},"album":{"cover_xl":"https://x/c.jpg"}}]}"""
+        assertEquals("https://x/c.jpg", deezerCover(json("Tame Impala"), "Jennie,Tame Impala", "Song"))
+        assertEquals("https://x/c.jpg", deezerCover(json("R3HAB"), "R3HAB/KSHMR", "Song"))
+        assertEquals("https://x/c.jpg", deezerCover(json("Ron Goodwin & His Orchestra"), "Ron Goodwin", "Song"))
+        assertNull(deezerCover(json("Other"), "Jennie,Tame Impala", "Song"))
+    }
+
+    @Test
     fun `itunesCover upsizes artwork and rejects other artist`() {
         val json = """{"results":[
             {"trackName":"Pull Me Under","artistName":"Other","artworkUrl100":"https://x/o/100x100bb.jpg"},
@@ -243,6 +259,26 @@ class RadioTrackCoverResolverTest {
             itunes = itunesJson("Dream Theater", "https://x/it/100x100bb.jpg")
         )
         assertEquals("https://x/it/600x600bb.jpg", fake.resolver().resolve("Dream Theater", "Pull Me Under"))
+    }
+
+    @Test
+    fun `resolve tries title and artist swapped after a miss`() {
+        val fake = Fake(musicBrainz = noMusicBrainz, deezer = deezerJson("Dream Theater", "https://x/dz.jpg"), itunes = """{"results":[]}""")
+        assertEquals("https://x/dz.jpg", fake.resolver().resolve("Pull Me Under", "Dream Theater"))
+    }
+
+    @Test
+    fun `the swapped try needs an equal title`() {
+        val longer = """{"data":[{"title":"Radio","artist":{"name":"Robbie Williams"},"album":{"cover_xl":"https://x/c.jpg"}}]}"""
+        val fake = Fake(musicBrainz = noMusicBrainz, deezer = longer, itunes = """{"results":[]}""")
+        assertNull(fake.resolver().resolve("Radio Italia", "Robbie Williams"))
+    }
+
+    @Test
+    fun `resolve does not try swapped after a network failure`() {
+        val fake = Fake(failGet = true)
+        assertNull(fake.resolver().resolve("Pull Me Under", "Dream Theater"))
+        assertEquals(3, fake.getCalls.size)
     }
 
     @Test
