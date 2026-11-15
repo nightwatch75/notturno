@@ -465,7 +465,8 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
                         ?: false
 
                     if (player.nextMediaItemIndex == C.INDEX_UNSET) {
-                        if (!handled && Preferences.isContinuousPlayEnabled()) {
+                        if (!handled && !MediaManager.continueGlobalShuffle(currentMediaItem, this@BaseMediaService)
+                            && Preferences.isContinuousPlayEnabled()) {
                             MediaManager.continuousPlay(currentMediaItem, this@BaseMediaService)
                         }
                     }

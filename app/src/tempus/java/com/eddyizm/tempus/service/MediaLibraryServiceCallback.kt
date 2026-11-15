@@ -208,6 +208,18 @@ class MediaLibrarySessionCallback(
                 Futures.immediateFuture(cachedItems)
             }
 
+            firstItem.mediaId == ConstantsAA.SHUFFLE_ALL_ID -> Futures.transform(
+                automotiveRepository.getRandomSongs(ConstantsAA.MAX_SHUFFLE_ITEMS),
+                { result ->
+                    val songs: List<MediaItem> = result.value ?: emptyList()
+                    // A failed future keeps the current queue, an empty list would clear it.
+                    if (songs.isEmpty()) throw NoSuchElementException("No random songs")
+                    MediaManager.markGlobalShuffle(songs.map { it.mediaId })
+                    songs
+                },
+                MoreExecutors.directExecutor()
+            )
+
             firstItem.mediaId.startsWith(ConstantsAA.INSTANTMIX_SOURCE) -> {
                 Log.d(TAG, "Fetching instant mix for $firstItem.mediaId")
 

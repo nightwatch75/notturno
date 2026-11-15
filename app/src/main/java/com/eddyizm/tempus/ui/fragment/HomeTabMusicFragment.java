@@ -200,7 +200,7 @@ public class HomeTabMusicFragment extends Fragment implements ClickCallback {
                 MusicUtil.ratingFilter(songs);
 
                 if (!songs.isEmpty()) {
-                    MediaManager.startQueue(mediaBrowserListenableFuture, songs, 0);
+                    MediaManager.startGlobalShuffle(mediaBrowserListenableFuture, songs);
                     activity.setBottomSheetInPeek(true);
                 }
             });

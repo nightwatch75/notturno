@@ -28,6 +28,7 @@ object ConstantsAA {
     const val STARRED_ALBUMS_ID = "[starredAlbumsID]"
     const val STARRED_ARTISTS_ID = "[starredArtistsID]"
     const val RANDOM_ID = "[randomID]"
+    const val SHUFFLE_ALL_ID = "[shuffleAllID]"
     const val FOLDER_ID = "[folderID]"
     const val GENRES_ID = "[genresID]"
     const val TRACKS_ID = "[TracksID]"

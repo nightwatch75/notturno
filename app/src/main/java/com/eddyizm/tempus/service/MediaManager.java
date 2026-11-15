@@ -3,6 +3,7 @@ package com.eddyizm.tempus.service;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ import com.eddyizm.tempus.subsonic.models.InternetRadioStation;
 import com.eddyizm.tempus.subsonic.models.PodcastEpisode;
 import com.eddyizm.tempus.util.Constants;
 import com.eddyizm.tempus.util.MappingUtil;
+import com.eddyizm.tempus.util.MusicUtil;
 import com.eddyizm.tempus.util.ConnectionUtil;
 import com.eddyizm.tempus.util.Preferences;
 import com.eddyizm.tempus.viewmodel.PlaybackViewModel;
@@ -756,6 +758,53 @@ public class MediaManager {
                 }
             }
         });
+    }
+
+    private static final int GLOBAL_SHUFFLE_BATCH = 100;
+    // shortcut: a song is recognized by id only, so another queue ending with one of these songs also continues at random.
+    private static volatile Set<String> globalShuffleIds = Collections.emptySet();
+    private static final long GLOBAL_SHUFFLE_RETRY_MS = 30_000L;
+    private static long globalShuffleRefillAt = 0L;
+
+    public static void markGlobalShuffle(List<String> songIds) {
+        globalShuffleIds = new HashSet<>(songIds);
+        globalShuffleRefillAt = 0L;
+    }
+
+    public static void startGlobalShuffle(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> songs) {
+        markGlobalShuffle(songs.stream().map(Child::getId).collect(Collectors.toList()));
+        startQueue(mediaBrowserListenableFuture, songs, 0);
+    }
+
+    /**
+     * Call it when the last item of the queue starts. If the item comes from a global shuffle,
+     * adds another batch of random songs of the whole library and returns true.
+     */
+    public static boolean continueGlobalShuffle(MediaItem lastItem, QueueTarget queueTarget) {
+        if (!globalShuffleIds.contains(lastItem.mediaId)) return false;
+        // The request has no failure callback: a time guard, not a flag, so a failed refill can be tried again.
+        long now = SystemClock.elapsedRealtime();
+        if (now - globalShuffleRefillAt < GLOBAL_SHUFFLE_RETRY_MS) return true;
+        globalShuffleRefillAt = now;
+
+        LiveData<List<Child>> randomSongs = getSongRepository().getRandomSample(GLOBAL_SHUFFLE_BATCH, null, null);
+        randomSongs.observeForever(new Observer<List<Child>>() {
+            @Override
+            public void onChanged(List<Child> random) {
+                randomSongs.removeObserver(this);
+                if (random == null || random.isEmpty() || !globalShuffleIds.contains(lastItem.mediaId)) return;
+                MusicUtil.ratingFilter(random);
+                List<Child> fresh = dedupAgainstQueue(random, queueTarget);
+                if (fresh.isEmpty()) fresh = random; // the queue already holds the whole library
+                Log.d(TAG, "Global shuffle: adding " + fresh.size() + " random tracks");
+
+                Set<String> ids = new HashSet<>(globalShuffleIds);
+                for (Child song : fresh) ids.add(song.getId());
+                globalShuffleIds = ids;
+                enqueue(queueTarget, fresh, true);
+            }
+        });
+        return true;
     }
 
     private static List<Child> dedupAgainstQueue(List<Child> candidates,

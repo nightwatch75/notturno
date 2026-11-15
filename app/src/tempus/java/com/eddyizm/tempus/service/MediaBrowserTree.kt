@@ -417,6 +417,19 @@ object MediaBrowserTree {
                 )
             )
 
+        treeNodes[ConstantsAA.SHUFFLE_ALL_ID] =
+            MediaItemNode(
+                buildMediaItem(
+                    gridView = false,
+                    title = appContext.getString(R.string.home_title_discovery_shuffle_all_button),
+                    mediaId = ConstantsAA.SHUFFLE_ALL_ID,
+                    isPlayable = true,
+                    isBrowsable = false,
+                    imageUri = iconUri(R.drawable.ic_aa_shuffle_all),
+                    mediaType = MediaMetadata.MEDIA_TYPE_FOLDER_MIXED
+                )
+            )
+
         treeNodes[ConstantsAA.RANDOM_ID] =
             MediaItemNode(
                 buildMediaItem(
@@ -527,6 +540,7 @@ object MediaBrowserTree {
         // Second level for HOME_ID even there is no HOME_ID displayed
         // Downloads first: it is the only section that works with no connectivity
         treeNodes[ConstantsAA.HOME_ID]?.addChild(ConstantsAA.DOWNLOADED_ID)
+        treeNodes[ConstantsAA.HOME_ID]?.addChild(ConstantsAA.SHUFFLE_ALL_ID)
 
 		// add all functions not previously added
         allFunctions
