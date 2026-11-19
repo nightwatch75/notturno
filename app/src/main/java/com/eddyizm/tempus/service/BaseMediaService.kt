@@ -42,6 +42,7 @@ import com.eddyizm.tempus.equalizer.DefaultBackend
 import com.eddyizm.tempus.equalizer.ParametricBackend
 import com.eddyizm.tempus.equalizer.ParametricEqAudioProcessor
 import androidx.mediarouter.media.MediaRouter
+import com.eddyizm.tempus.repository.AlbumRepository
 import com.eddyizm.tempus.repository.QueueRepository
 import com.eddyizm.tempus.subsonic.base.ApiResponse
 import com.eddyizm.tempus.subsonic.utils.CacheUtil
@@ -783,6 +784,23 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
         Log.d(TAG, "onInstantMix: start Continuous Play with $currentMediaItem")
         MediaManager.continuousPlay(currentMediaItem, this) {
             Handler(Looper.getMainLooper()).post { onComplete?.run() }
+        }
+    }
+
+    /** Keeps the song on air and turns the queue into its album: the other tracks come before and after it. */
+    open fun onGoToAlbum(session: MediaSession) {
+        val player = session.player
+        val playing = player.currentMediaItem ?: return
+        val albumId = playing.mediaMetadata.extras?.getString("albumId") ?: return
+        AlbumRepository().getAlbumTracks(albumId) { tracks ->
+            val position = tracks.indexOfFirst { it.id == playing.mediaId }
+            if (position < 0 || player.currentMediaItem?.mediaId != playing.mediaId) return@getAlbumTracks
+            val items = MappingUtil.mapMediaItems(tracks)
+            val index = player.currentMediaItemIndex
+            player.removeMediaItems(index + 1, player.mediaItemCount)
+            player.removeMediaItems(0, index)
+            player.addMediaItems(0, items.subList(0, position))
+            player.addMediaItems(items.subList(position + 1, items.size))
         }
     }
 

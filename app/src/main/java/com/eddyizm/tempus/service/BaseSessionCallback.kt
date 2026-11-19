@@ -132,6 +132,15 @@ open class BaseSessionCallback(
             .setSlots(CommandButton.SLOT_OVERFLOW)
             .build()
 
+    @Suppress("DEPRECATION")
+    private val customCommandGotoAlbum =
+        CommandButton.Builder(CommandButton.ICON_UNDEFINED)
+            .setDisplayName(context.getString(R.string.custom_command_goto_album))
+            .setSessionCommand(SessionCommand(Constants.CUSTOM_COMMAND_GOTO_ALBUM, Bundle.EMPTY))
+            .setIconResId(R.drawable.ic_goto_album)
+            .setSlots(CommandButton.SLOT_OVERFLOW)
+            .build()
+
     // Standard transport controls. Kept pinned in setMediaButtonPreferences so the custom
     // overflow buttons can't take their place on the last track (see #663).
     private val previousButton =
@@ -323,7 +332,8 @@ open class BaseSessionCallback(
             "[heartID]",
             "[repeatID]",
             "[shuffleID]",
-            "[instantMixID]")
+            "[instantMixID]",
+            "[gotoAlbumID]")
         val tabButton = listOfNotNull(
             Preferences.getCustomCommandFirstButton(),
             Preferences.getCustomCommandSecondButton()
@@ -361,6 +371,7 @@ open class BaseSessionCallback(
 
             "[instantMixID]" -> if (!MediaManager.continuousPlayIsRunning.get()) customCommandInstantMixOn
             else customCommandInstantMixOff
+            "[gotoAlbumID]" -> if (player.currentMediaItem?.mediaMetadata?.extras?.getString("albumId") != null) customCommandGotoAlbum else null
             else -> null
         }
     }
@@ -486,6 +497,10 @@ open class BaseSessionCallback(
                     args.getInt(Constants.PLAY_NEXT_COUNT, 0),
                     args.getInt(Constants.PLAY_NEXT_TARGET_COUNT, -1)
                 )
+                Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
+            }
+            Constants.CUSTOM_COMMAND_GOTO_ALBUM -> {
+                service.onGoToAlbum(session)
                 Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
             }
             Constants.CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON -> {
