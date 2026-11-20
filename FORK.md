@@ -1,4 +1,4 @@
-# Tempus mod (personal fork)
+# Notturno (personal fork of Tempus)
 
 Fork of [eddyizm/tempus](https://github.com/eddyizm/tempus), kept as a patch set on top of upstream `development`.
 The upstream PR for the radio covers (#1281) was not accepted, so the changes live here.
@@ -29,5 +29,7 @@ Before a rebase, keep a safety branch: `git branch backup/pre-<upstream version>
 
 ## Notes
 
+- App name "Notturno", application id `com.nightwatch75.tempus` (`.degoogled.tempus` and `.play.tempus` for the other flavors, `.debug` suffix on debug builds). It installs next to the official Tempus. The code keeps the `com.eddyizm.tempus` package so rebases stay clean.
+- Icon: moon and eye with a music note, purple. Vector files `ic_launcher_*` in `app/src/main/res/drawable`.
 - The APK is a debug build, signed with the local debug key: updates install only over APKs signed with the same key.
 - The radio cover lookup sends artist and title to the three services above (see `PRIVACY_POLICY.md`).

@@ -54,17 +54,17 @@ android {
     productFlavors {
         tempus {
             dimension = "default"
-            applicationId = 'com.eddyizm.tempus'
+            applicationId = 'com.nightwatch75.tempus'
         }
 
         degoogled {
             dimension = "default"
-            applicationId = "com.eddyizm.degoogled.tempus"
+            applicationId = "com.nightwatch75.degoogled.tempus"
         }
 
         play {
             dimension = "default"
-            applicationId = "com.eddyizm.play.tempus"
+            applicationId = "com.nightwatch75.play.tempus"
         }
     }
 
