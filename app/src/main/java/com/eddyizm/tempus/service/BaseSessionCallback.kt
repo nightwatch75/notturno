@@ -171,7 +171,8 @@ open class BaseSessionCallback(
         customCommandToggleHeartOff,
         customCommandToggleHeartLoading,
         customCommandInstantMixOn,
-        customCommandInstantMixOff
+        customCommandInstantMixOff,
+        customCommandGotoAlbum
     )
 
     private val playerListener = object : Player.Listener {
