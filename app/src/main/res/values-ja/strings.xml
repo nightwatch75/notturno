@@ -446,7 +446,7 @@
     <string name="server_unreachable_dialog_positive_button">このまま続行</string>
     <string name="server_unreachable_dialog_summary">指定されたサーバーに接続できません。このまま続行すると、このダイアログは1時間表示されなくなります。</string>
     <string name="server_unreachable_dialog_title">サーバーに接続できません</string>
-    <string name="settings_about_summary">TempusはAndroid向けネイティブアプリとして開発されたオープンソースの軽量Subsonicクライアントです。</string>
+    <string name="settings_about_summary">NotturnoはAndroid向けネイティブアプリとして開発されたオープンソースの軽量Subsonicクライアントです。</string>
     <string name="settings_about_title">アプリについて</string>
     <string name="settings_always_on_display">常時表示</string>
     <string name="settings_allow_playlist_duplicates">プレイリストへの重複追加を許可</string>
@@ -487,10 +487,10 @@
     <string name="settings_precache_wifi_only_summary">従量制接続時は事前キャッシュを一時停止します</string>
     <string name="settings_system_equalizer_summary">音声設定を調整</string>
     <string name="settings_system_equalizer_title">システムイコライザー</string>
-    <string name="settings_github_link">https://github.com/eddyizm/tempus</string>
+    <string name="settings_github_link">https://github.com/nightwatch75/notturno</string>
     <string name="settings_github_summary">開発の進捗を見る</string>
     <string name="settings_github_title">GitHub</string>
-    <string name="settings_support_discussion_link" translatable="false">https://github.com/eddyizm/tempus/discussions</string>
+    <string name="settings_support_discussion_link" translatable="false">https://github.com/nightwatch75/notturno/issues</string>
     <string name="settings_github_update">アップデート</string>
     <string name="settings_github_update_title">GitHubのリリース更新を確認</string>
     <string name="settings_github_update_summary">GitHub版を使用している場合、デフォルトで新しいAPKリリースを確認します。切り替えることで自動確認を無効にできます</string>
@@ -588,7 +588,7 @@
     <string name="settings_network_playback_title">ネットワーク再生</string>
     <string name="settings_upnp_title">UPnP/DLNAレンダラー</string>
     <string name="settings_upnp_summary">ネットワーク上のUPnP/DLNAレンダラーを探して再生します。キャスト先の選択画面を開いている間だけ検索します。</string>
-    <string name="settings_lan_remote_summary">別のデバイスのTempusを操作したり、別のデバイスからこのデバイスを操作したりできます。レシーバーがオンの間待ち受け、デバイス一覧を開いたときだけ検索します。</string>
+    <string name="settings_lan_remote_summary">別のデバイスのNotturnoを操作したり、別のデバイスからこのデバイスを操作したりできます。レシーバーがオンの間待ち受け、デバイス一覧を開いたときだけ検索します。</string>
     <string name="settings_theme">テーマ</string>
     <string name="settings_dark_theme_style">ダークテーマのスタイル</string>
     <string name="settings_tile_size">タイルのサイズ</string>
@@ -632,7 +632,7 @@
     <string name="toolbar_navigation_drawer_open">ナビゲーションドロワーを開く</string>
     <string name="toolbar_navigation_drawer_closed">ナビゲーションドロワーを閉じる</string>
     <string name="favorite_icon_description">お気に入り</string>
-    <string name="asset_link_clipboard_label">Tempusアセットリンク</string>
+    <string name="asset_link_clipboard_label">Notturnoアセットリンク</string>
     <string name="asset_link_label_song">曲のUID</string>
     <string name="asset_link_label_album">アルバムのUID</string>
     <string name="asset_link_label_artist">アーティストのUID</string>
@@ -690,7 +690,7 @@
     <string name="streaming_cache_storage_dialog_title">保存先の選択</string>
     <string name="streaming_cache_storage_external_dialog_positive_button">外部ストレージ</string>
     <string name="streaming_cache_storage_internal_dialog_negative_button">内部ストレージ</string>
-    <string name="support_url" translatable="false">https://ko-fi.com/eddyizm</string>
+    <string name="support_url" translatable="false">https://github.com/nightwatch75/notturno</string>
     <string name="track_info_album">アルバム</string>
     <string name="track_info_artist">アーティスト</string>
     <string name="track_info_bit_depth">ビット深度</string>
@@ -720,9 +720,9 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">unDrawに特別な感謝を。そのイラストがなければアプリを美しくすることはできませんでした。</string>
     <string name="undraw_url" translatable="false">https://undraw.co/</string>
-    <string name="widget_label">Tempusウィジェット</string>
+    <string name="widget_label">Notturnoウィジェット</string>
     <string name="widget_not_playing">再生していません</string>
-    <string name="widget_placeholder_subtitle">Tempusを開く</string>
+    <string name="widget_placeholder_subtitle">Notturnoを開く</string>
     <string name="widget_time_elapsed_placeholder">0:00</string>
     <string name="widget_time_duration_placeholder">0:00</string>
     <string name="widget_content_desc_album_art">アルバムアートワーク</string>
@@ -788,9 +788,9 @@
         <item>@string/sleep_timer_end_of_track_label</item>
         <item>カスタム…</item>
     </string-array>
-    <string name="customactivityoncrash_error_activity_error_occurred_explanation">Tempusがクラッシュしました。</string>
+    <string name="customactivityoncrash_error_activity_error_occurred_explanation">Notturnoがクラッシュしました。</string>
     <string name="ca_info_label">情報</string>
-    <string name="ca_info_title">Tempusがクラッシュしました</string>
+    <string name="ca_info_title">Notturnoがクラッシュしました</string>
     <string name="ca_info_device_info" translatable="false">デバイス情報</string>
     <string name="ca_info_description">GitHubでIssueを作成し、クラッシュレポートのコピーを添えてご報告ください。</string>
     <string name="ca_info_button_close">アプリを終了</string>
@@ -816,7 +816,7 @@
     <string name="la_appbar_permission_title">権限の管理</string>
     <string name="la_appbar_themes_title">テーマエディター</string>
     <string name="la_appbar_server_title">サーバーエディター</string>
-    <string name="la_greeting_description">Tempusへようこそ。TempusはAndroid向けネイティブアプリとして開発されたオープンソースのSubsonicクライアントです。</string>
+    <string name="la_greeting_description">Notturnoへようこそ。NotturnoはAndroid向けネイティブアプリとして開発されたオープンソースのSubsonicクライアントです。</string>
     <string name="la_server_title">サーバー設定</string>
     <string name="la_server_field_server_empty_error">入力してください</string>
     <string name="la_server_field_server_url_error">有効なURLを入力してください</string>

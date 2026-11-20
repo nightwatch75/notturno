@@ -15,12 +15,12 @@
     <string name="lan_queue_changed">The queue changed. Open it again to refresh.</string>
     <string name="lan_pair_first">Pair these phones in Remote player settings first, then select the receiver again.</string>
     <string name="lan_server_mismatch">Both phones must use the same music server address.</string>
-    <string name="lan_update_both">Update Tempus on both phones to use live remote control.</string>
+    <string name="lan_update_both">Update Notturno on both phones to use live remote control.</string>
     <string name="lan_menu_summary">Pair phones and control playback on the local network.</string>
     <string name="lan_device_name">Device name</string>
     <string name="lan_name_saved">Name saved. Disable and enable availability to update it on the network.</string>
     <string name="lan_allow">Allow control from the local network</string>
-    <string name="lan_available">Tempus available on the local network</string>
+    <string name="lan_available">Notturno available on the local network</string>
     <string name="lan_disable">Disable</string>
     <string name="lan_pair_new">Make available for pairing</string>
     <string name="lan_paired">Paired controllers</string>
@@ -43,7 +43,7 @@
     <string name="lan_queue_limit">For this preview, select a music queue containing 1–500 tracks without duplicates. Radio and podcasts are not supported.</string>
     <string name="lan_identity_error">Unable to prepare this phone’s certificate for the connection.</string>
     <string name="lan_connect_error">Phone found but unreachable. Check that it is still available and that the network or a VPN is not blocking connections between phones.</string>
-    <string name="lan_tls_error">Secure connection failed during the certificate exchange. Update Tempus on both phones and try again.</string>
+    <string name="lan_tls_error">Secure connection failed during the certificate exchange. Update Notturno on both phones and try again.</string>
     <string name="lan_identity_mismatch">Unable to verify the phone’s identity. Search again and compare the pairing codes.</string>
     <string name="lan_response_error">Connection opened, but the pairing response was missing or rejected. Enable “Make available for pairing” on the receiver and try again.</string>
     <string name="lan_device_status">%1$s · %2$s</string>

@@ -3,8 +3,8 @@ package com.eddyizm.tempus.github;
 import com.eddyizm.tempus.github.api.release.ReleaseClient;
 
 public class Github {
-    private static final String OWNER = "eddyizm";
-    private static final String REPO = "Tempus";
+    private static final String OWNER = "nightwatch75";
+    private static final String REPO = "notturno";
     private ReleaseClient releaseClient;
 
     public ReleaseClient getReleaseClient() {

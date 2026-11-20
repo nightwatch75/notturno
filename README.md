@@ -5,7 +5,7 @@
 <h1 align="center">Notturno</h1>
 
 <p align="center">
-  <b>A personal Android client for Subsonic servers, forked from <a href="https://github.com/eddyizm/tempus">Tempus</a></b>
+  <b>An Android music player for Subsonic-compatible servers</b>
 </p>
 
 <div align="center">
@@ -16,33 +16,31 @@
 
 ---
 
-**Notturno** plays your music from a Subsonic-compatible server (Navidrome, Gonic, LMS, Nextcloud Music, Ampache, Airsonic Advanced and more).
-It is a personal fork of [**Tempus**](https://github.com/eddyizm/tempus) by eddyizm, which is itself a fork of [Tempo](https://github.com/CappielloAntonio/tempo).
-Almost everything in the app is their work: this repository only adds a small set of changes on top of upstream `development`.
-If you want the original app, with its releases, F-Droid and IzzyOnDroid packages, use [Tempus](https://github.com/eddyizm/tempus).
+Notturno streams and downloads music from your own server: Navidrome, Gonic, LMS, Nextcloud Music, Ampache, Airsonic Advanced and others that speak the Subsonic API.
+It is a personal fork, built on [Tempus](https://github.com/eddyizm/tempus), and installs next to it without sharing data.
 
-Notturno installs next to Tempus (different application id) and does not share its data.
+## Features
 
-## What Notturno adds
+- Browse by artist, album, genre, decade and playlist; search; instant mix; podcasts; internet radio.
+- Streaming, downloads and offline playback, transcoding, gapless playback, ReplayGain, equalizer, home-screen widget.
+- Scrobbling to Last.fm and ListenBrainz through your server.
+- Multiple servers and libraries, with custom HTTP headers and client certificates (mTLS).
+- Android Auto and Chromecast (`tempus` flavor), or a build without Google services (`degoogled` flavor).
 
-- **Radio song covers**: for internet radio, shows the cover of the song on air. It reads the ICY stream title and looks the cover up on MusicBrainz and Cover Art Archive, then Deezer, then iTunes. Off by default, in Settings.
-- **Shuffle all**: endless random play of the whole library, from a Home button and from an item in the Android Auto tree.
+Added in Notturno:
+
+- **Radio song covers**: shows the cover of the song on air. It reads the stream title and looks the cover up on MusicBrainz and Cover Art Archive, then Deezer, then iTunes. Off by default.
+- **Shuffle all**: endless random play of the whole library, from a Home button and from the Android Auto tree.
 - **Go to album**: a player button (notification, Android Auto) that turns the queue into the album of the song in play. Choose its place in Settings, custom buttons.
-- **Server editor**: type a bare host or IP (`music.example.com`, `192.168.1.10:4533`) and the scheme is added; the name defaults to the host; the Test button works before saving.
-- **From upstream pull requests not yet released**: mTLS certificate chooser fix ([#1338](https://github.com/eddyizm/tempus/pull/1338)) and OpenSubsonic `playbackReport` ([#1285](https://github.com/eddyizm/tempus/pull/1285)).
-- **Name and icon**: new name, application id and launcher icon.
+- **Server editor**: type a bare host or IP (`music.example.com`, `192.168.1.10:4533`) and the scheme is added; the name defaults to the host; Test works before saving.
+- **Playback reports**: sends play state to servers that support the OpenSubsonic `playbackReport` extension.
+- **Certificate chooser fix** for servers that need a client certificate.
 
-Details, upstream sync procedure and known fragile spots are in [FORK.md](FORK.md).
-
-## What comes from Tempus
-
-Subsonic integration, browsing and search, streaming and downloads, playlists, gapless playback, ReplayGain, scrobbling to Last.fm and ListenBrainz,
-podcasts, radio, instant mix, transcoding, multiple libraries, equalizer, widget, Android Auto and Chromecast (`tempus` flavor),
-and the translations. See the upstream [README](https://github.com/eddyizm/tempus#readme) and the [usage guide](USAGE.md).
+The usage guide is in [USAGE.md](USAGE.md). Notes on how the fork follows upstream, and its fragile spots, are in [FORK.md](FORK.md).
 
 ## Build
 
-Notturno is built from source. There are no store releases.
+Notturno is built from source.
 
 ```bash
 ./gradlew assembleTempusDebug       # Android Auto and Chromecast
@@ -50,7 +48,7 @@ Notturno is built from source. There are no store releases.
 ```
 
 The APK is in `app/build/outputs/apk/<flavor>/debug/`. It is signed with the local debug key, so an update installs only over an APK signed with the same key.
-Java 21 is downloaded by Gradle. Unit tests: `./gradlew testTempusDebugUnitTest`.
+Gradle downloads Java 21. Unit tests: `./gradlew testTempusDebugUnitTest`.
 
 ## Privacy
 
@@ -58,10 +56,9 @@ The app talks to your server only. The optional radio cover lookup sends the art
 
 ## License
 
-Notturno is released under the [GNU General Public License v3.0](LICENSE), like Tempus.
+GNU General Public License v3.0, see [LICENSE](LICENSE).
 
 ## Credits
 
-- [eddyizm](https://github.com/eddyizm) and the [Tempus contributors](https://github.com/eddyizm/tempus/graphs/contributors), for the app this is built on, including [tvillega](https://github.com/tvillega), [herrerad85](https://github.com/herrerad85) and [MaFo-28](https://github.com/MaFo-28).
-- [CappielloAntonio](https://github.com/CappielloAntonio), creator of [Tempo](https://github.com/CappielloAntonio/tempo), from which Tempus was forked (v3.9.0).
-- [SeattleGuy](https://github.com/SeattleGuy), for the Tempus logo. Notturno uses its own icon.
+Notturno is a derivative work. The app exists thanks to [Tempus](https://github.com/eddyizm/tempus) and its contributors, and to [Tempo](https://github.com/CappielloAntonio/tempo), from which Tempus was forked.
+Notturno uses its own name and icon.

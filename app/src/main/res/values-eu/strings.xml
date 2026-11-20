@@ -376,20 +376,20 @@
     <string name="server_unreachable_dialog_positive_button">Hala ere jarraitu</string>
     <string name="server_unreachable_dialog_summary">Eskatutako zerbitzaria ez dago erabilgarri. Jarraitzea aukeratzen baduzu, elkarrizketa-koadro hau ez da hurrengo orduan agertuko.</string>
     <string name="server_unreachable_dialog_title">Zerbitzaria eskuraezin</string>
-    <string name="settings_about_summary">Tempus Subsonic-erako iturri irekiko eta arina den musika-bezeroa da, Android-erako berariaz diseinatua eta eraikia.</string>
+    <string name="settings_about_summary">Notturno Subsonic-erako iturri irekiko eta arina den musika-bezeroa da, Android-erako berariaz diseinatua eta eraikia.</string>
     <string name="settings_about_title">Honi buruz</string>
     <string name="settings_always_on_display">Beti pizturiko pantaila</string>
     <string name="settings_allow_playlist_duplicates">Zerrendan bikoiztuak onartu</string>
     <string name="settings_allow_playlist_duplicates_summary">Gaituta badago, ez da bikoizturik egiaztatuko zerrendara gehitzean.</string>
     <string name="settings_audio_transcode_download_format">Transkodetze-formatua</string>
-    <string name="settings_audio_transcode_download_priority_summary">Gaituta badago, Tempus-ek ez du behartuko abestia beheko transkodetze-ezarpenekin deskargatzera.</string>
+    <string name="settings_audio_transcode_download_priority_summary">Gaituta badago, Notturno-ek ez du behartuko abestia beheko transkodetze-ezarpenekin deskargatzera.</string>
     <string name="settings_audio_transcode_download_priority_title">Emandako streaming ezarpenei lehentasuna eman deskarga jasotzean</string>
-    <string name="settings_audio_transcode_download_summary">Gaituta badago, Tempus-ek transkodetutako abestiak deskargatuko ditu.</string>
+    <string name="settings_audio_transcode_download_summary">Gaituta badago, Notturno-ek transkodetutako abestiak deskargatuko ditu.</string>
     <string name="settings_audio_transcode_download_title">Transkodetutako abestiak deskargatu</string>
     <string name="settings_audio_transcode_format_download">Deskargen transkodetze-formatua</string>
     <string name="settings_audio_transcode_format_mobile">Transkodetze-formatua sare mugikorrean</string>
     <string name="settings_audio_transcode_format_wifi">Transkodetze-formatua Wi-Fi bidez</string>
-    <string name="settings_audio_transcode_priority_summary">Gaituta badago, Tempus-ek ez du behartuko abestia beheko transkodetze-ezarpenekin igortzera.</string>
+    <string name="settings_audio_transcode_priority_summary">Gaituta badago, Notturno-ek ez du behartuko abestia beheko transkodetze-ezarpenekin igortzera.</string>
     <string name="settings_audio_transcode_priority_title">Zerbitzariaren transkodetze-ezarpenei lehentasuna eman</string>
     <string name="settings_audio_transcode_priority_toast">Abestiaren transkodetze-lehentasuna zerbitzariari eman zaio</string>
     <string name="settings_choose_download_folder">Aukeratu deskargatutako musika-fitxategien karpeta</string>
@@ -417,10 +417,10 @@
     <string name="settings_precache_wifi_only_summary">Pausatu aurrez cachean gordetzea konexio neurtua erabiltzean</string>
     <string name="settings_system_equalizer_summary">Doitu audio-ezarpenak</string>
     <string name="settings_system_equalizer_title">Sistemaren ekualizadorea</string>
-    <string name="settings_github_link">https://github.com/eddyizm/tempus</string>
+    <string name="settings_github_link">https://github.com/nightwatch75/notturno</string>
     <string name="settings_github_summary">Garapenaren jarraipena egin</string>
     <string name="settings_github_title">Github</string>
-    <string name="settings_support_discussion_link" translatable="false">https://github.com/eddyizm/tempus/discussions</string>
+    <string name="settings_support_discussion_link" translatable="false">https://github.com/nightwatch75/notturno/issues</string>
     <string name="settings_github_update">Eguneraketak</string>
     <string name="settings_github_update_title">Bertsio-eguneraketak Githuben egiaztatu</string>
     <string name="settings_github_update_summary">Github bertsioa erabiliz gero, lehenespenez aplikazioak apk argitalpen berririk dagoen begiratuko du. Aktibatu/desaktibatu Githuben egiaztapen automatikoak desgaitzeko</string>
@@ -557,7 +557,7 @@
     <string name="toolbar_navigation_drawer_closed">Nabigazio-tiradera itxita</string>
     <string name="favorite_icon_description">Gogokoa</string>
 
-    <string name="asset_link_clipboard_label">Tempus-eko esteka</string>
+    <string name="asset_link_clipboard_label">Notturno-eko esteka</string>
     <string name="asset_link_label_song">Abestiaren UIDa</string>
     <string name="asset_link_label_album">Diskoaren UIDa</string>
     <string name="asset_link_label_artist">Artistaren UIDa</string>
@@ -613,7 +613,7 @@
     <string name="streaming_cache_storage_dialog_title">Biltegi-aukera hautatu</string>
     <string name="streaming_cache_storage_external_dialog_positive_button">Kanpokoa</string>
     <string name="streaming_cache_storage_internal_dialog_negative_button">Barnekoa</string>
-    <string name="support_url" translatable="false">https://ko-fi.com/eddyizm</string>
+    <string name="support_url" translatable="false">https://github.com/nightwatch75/notturno</string>
     <string name="track_info_album">Diskoa</string>
     <string name="track_info_artist">Artista</string>
     <string name="track_info_bit_depth">Bit-sakonera</string>
@@ -643,9 +643,9 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">Esker berezi bat unDraw-i, zeinen ilustrazioak gabe aplikazio hau ederragoa egin ezin izango genukeen.</string>
     <string name="undraw_url" translatable="false">https://undraw.co/</string>
-    <string name="widget_label">Tempus Widgeta</string>
+    <string name="widget_label">Notturno Widgeta</string>
     <string name="widget_not_playing">Ez da ezer erreproduzitzen ari</string>
-    <string name="widget_placeholder_subtitle">Tempus ireki</string>
+    <string name="widget_placeholder_subtitle">Notturno ireki</string>
     <string name="widget_time_elapsed_placeholder">0:00</string>
     <string name="widget_time_duration_placeholder">0:00</string>
     <string name="widget_content_desc_album_art">Diskoaren azala</string>
@@ -715,12 +715,12 @@
         <item>@string/sleep_timer_end_of_track_label</item>
         <item>Pertsonalizatua…</item>
     </string-array>
-    <string name="customactivityoncrash_error_activity_error_occurred_explanation">Tempus kraskatu da.</string>
+    <string name="customactivityoncrash_error_activity_error_occurred_explanation">Notturno kraskatu da.</string>
 
     <!-- Crash Activity -->
 
     <string name="ca_info_label">Informazioa</string>
-    <string name="ca_info_title">Tempus kraskatu da</string>
+    <string name="ca_info_title">Notturno kraskatu da</string>
     <string name="ca_info_description">
         Mesedez, ireki arazo bat GitHub-en eta erantsi erregistroen kopia hau konpontzeko.
     </string>
@@ -822,7 +822,7 @@
     <string name="la_appbar_permission_title">Baimenen kudeaketa</string>
     <string name="la_appbar_themes_title">Itxura-editorea</string>
     <string name="la_appbar_server_title">Zerbitzari-editorea</string>
-    <string name="la_greeting_description">Ongi etorri Tempus-era, Subsonic-erako kode irekiko musika-bezeroa, Androiderako berariaz diseinatu eta garatua.</string>
+    <string name="la_greeting_description">Ongi etorri Notturno-era, Subsonic-erako kode irekiko musika-bezeroa, Androiderako berariaz diseinatu eta garatua.</string>
     <string name="la_server_title">Zerbitzariaren konfigurazioa</string>
     <string name="la_server_field_server_empty_error">Derrigorrezko eremua</string>
     <string name="la_server_field_server_url_error">URLa ez da baliozkoa</string>
@@ -902,7 +902,7 @@
     <string name="settings_network_playback_title">Sareko erreprodukzioa</string>
     <string name="settings_upnp_title">UPnP / DLNA erreproduzigailuak</string>
     <string name="settings_upnp_summary">Bilatu zure sareko UPnP eta DLNA erreproduzigailuak eta erreproduzitu haietan. Igorpen-hautatzailea irekita dagoen bitartean soilik bilatzen du.</string>
-    <string name="settings_lan_remote_summary">Kontrolatu Tempus beste gailu batean, edo utzi beste batek gailu hau kontrolatzen. Hargailua piztuta dagoen bitartean soilik entzuten du, eta gailuak bilatzen dituzunean soilik bilatzen du.</string>
+    <string name="settings_lan_remote_summary">Kontrolatu Notturno beste gailu batean, edo utzi beste batek gailu hau kontrolatzen. Hargailua piztuta dagoen bitartean soilik entzuten du, eta gailuak bilatzen dituzunean soilik bilatzen du.</string>
     <string name="settings_parametric_eq_import">Inportatu AutoEq profila</string>
     <string name="settings_parametric_eq_import_summary">Aukeratu AutoEq-eko ParametricEQ.txt fitxategi bat</string>
     <string name="settings_parametric_eq_summary">%1$s. %2$s dB baxuago entzuten da. Igorpen-irteerak ez du eraginik. Bluetooth entzungailuetarako, aukeratu zarata-ezabatze moduko profila eta utzi haien EQ propioa laua.</string>

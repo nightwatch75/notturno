@@ -14,12 +14,12 @@
     <string name="lan_queue_changed">Kolejka się zmieniła. Otwórz ją ponownie, aby ją odświeżyć.</string>
     <string name="lan_pair_first">Najpierw sparuj te telefony w ustawieniach zdalnego odtwarzacza, a następnie wybierz ten odbiornik ponownie.</string>
     <string name="lan_server_mismatch">Oba telefony muszą używać tego samego adresu serwera muzyki.</string>
-    <string name="lan_update_both">Zaktualizuj Tempus na obu telefonach, aby używać zdalnego sterowania w czasie rzeczywistym.</string>
+    <string name="lan_update_both">Zaktualizuj Notturno na obu telefonach, aby używać zdalnego sterowania w czasie rzeczywistym.</string>
     <string name="lan_menu_summary">Sparuj telefony i steruj odtwarzaniem w sieci lokalnej.</string>
     <string name="lan_device_name">Nazwa urządzenia</string>
     <string name="lan_name_saved">Nazwa zapisana. Wyłącz i włącz dostępność, aby zaktualizować ją w sieci.</string>
     <string name="lan_allow">Zezwalaj na sterowanie z sieci lokalnej</string>
-    <string name="lan_available">Tempus dostępny na sieci lokalnej</string>
+    <string name="lan_available">Notturno dostępny na sieci lokalnej</string>
     <string name="lan_disable">Wyłącz</string>
     <string name="lan_pair_new">Udostępnij do sparowania</string>
     <string name="lan_paired">Sparowane urządzenia zdalnego sterowania</string>
@@ -42,7 +42,7 @@
     <string name="lan_queue_limit">Dla tego podglądu, wybierz kolejkę muzyki zawierającą od 1 do 500 utworów bez duplikatów. Radio i podcasty nie są obsługiwane.</string>
     <string name="lan_identity_error">Nie udało się przygotować certyfikatu tego telefonu dla połączenia.</string>
     <string name="lan_connect_error">Telefon znaleziony, ale nieosiągalny. Sprawdź czy jest nadal dostępny i czy ta sieć lub VPN nie blokuje połączenia pomiędzy telefonami.</string>
-    <string name="lan_tls_error">Bezpieczne połączenie nieudane podczas wymiany certyfikatu. Zaktualizuj Tempus na obu telefonach i spróbuj ponownie.</string>
+    <string name="lan_tls_error">Bezpieczne połączenie nieudane podczas wymiany certyfikatu. Zaktualizuj Notturno na obu telefonach i spróbuj ponownie.</string>
     <string name="lan_identity_mismatch">Nie udało się potwierdzić tożsamośći telefonu. Wyszukaj ponownie i porównaj kody parowania.</string>
     <string name="lan_response_error">Połączenie otwarte, ale odpowiedzi parowania brakuje lub została odrzucona. Włącz “Udostępnienie do sparowania” na odbiorniku i spróbuj ponownie.</string>
     <string name="lan_device_status">%1$s · %2$s</string>

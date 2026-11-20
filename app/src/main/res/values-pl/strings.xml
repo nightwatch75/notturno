@@ -470,20 +470,20 @@
     <string name="server_unreachable_dialog_positive_button">Kontynuuj mimo wszystko</string>
     <string name="server_unreachable_dialog_summary">Wybrany serwer jest niedostępny. Jeżeli wybierzesz żeby kontynuować ta informacja nie będzie się wyświetlać przez następną godzinę.</string>
     <string name="server_unreachable_dialog_title">Serwer jest niedostępny</string>
-    <string name="settings_about_summary">Tempus jest otwarto-źródłowym i lekkim klientem muzycznym dla Subsonic, stworzonym i zbudowanym natywnie dla Androida.</string>
+    <string name="settings_about_summary">Notturno jest otwarto-źródłowym i lekkim klientem muzycznym dla Subsonic, stworzonym i zbudowanym natywnie dla Androida.</string>
     <string name="settings_about_title">O aplikacji</string>
     <string name="settings_always_on_display">Always on display</string>
     <string name="settings_allow_playlist_duplicates">Zezwalaj na dodawania duplikatów do playlist</string>
     <string name="settings_allow_playlist_duplicates_summary">Jeżeli włączone, duplikaty nie będą sprawdzane podczas dodawania do playlisty.</string>
     <string name="settings_audio_transcode_download_format">Format transkodowania</string>
-    <string name="settings_audio_transcode_download_priority_summary">Jeżeli włączone, Tempus nie będzię wymuszał pobierania utworu z ustawieniami transkodowania wybranymi poniżej.</string>
+    <string name="settings_audio_transcode_download_priority_summary">Jeżeli włączone, Notturno nie będzię wymuszał pobierania utworu z ustawieniami transkodowania wybranymi poniżej.</string>
     <string name="settings_audio_transcode_download_priority_title">Priorytetyzuj ustawienia serwera używanego do strumieniowania w pobieraniach</string>
-    <string name="settings_audio_transcode_download_summary">Jeżeli włączone, Tempus będzie pobierał transkodowane utwory.</string>
+    <string name="settings_audio_transcode_download_summary">Jeżeli włączone, Notturno będzie pobierał transkodowane utwory.</string>
     <string name="settings_audio_transcode_download_title">Pobieraj transkodowane utwory</string>
     <string name="settings_audio_transcode_format_download">Format transkodowania dla pobierania</string>
     <string name="settings_audio_transcode_format_mobile">Format transkodowania w sieci komórkowej</string>
     <string name="settings_audio_transcode_format_wifi">Format transkodowania w sieci Wi-Fi</string>
-    <string name="settings_audio_transcode_priority_summary">Jeżeli włączone, Tempus nie będzie wymuszał strumieniowania utworu z ustawieniami transkodowania wybranymi poniżej.</string>
+    <string name="settings_audio_transcode_priority_summary">Jeżeli włączone, Notturno nie będzie wymuszał strumieniowania utworu z ustawieniami transkodowania wybranymi poniżej.</string>
     <string name="settings_audio_transcode_priority_title">Priorytetyzuj ustawienia transkodowania serwera</string>
     <string name="settings_audio_transcode_priority_toast">Priorytet przy transkodowaniu utworu danego serwerowi</string>
     <string name="settings_choose_download_folder">Wybierz folder dla pobranych plików muzycznych</string>
@@ -511,10 +511,10 @@
     <string name="settings_precache_wifi_only_summary">Wstrzymaj wcześniejsze wczytywanie na ograniczonym połączeniu</string>
     <string name="settings_system_equalizer_summary">Zmień ustawienia audio</string>
     <string name="settings_system_equalizer_title">Korektor systemowy</string>
-    <string name="settings_github_link">https://github.com/eddyizm/tempus</string>
+    <string name="settings_github_link">https://github.com/nightwatch75/notturno</string>
     <string name="settings_github_summary">Śledź tworzenie aplikacji</string>
     <string name="settings_github_title">GitHub</string>
-    <string name="settings_support_discussion_link">https://github.com/eddyizm/tempus/discussions</string>
+    <string name="settings_support_discussion_link">https://github.com/nightwatch75/notturno/issues</string>
     <string name="settings_github_update">Aktualizacje</string>
     <string name="settings_github_update_title">Sprawdzaj dostępność nowych aktualizacji na githubie</string>
     <string name="settings_github_update_summary">Jeżeli używana jest wersja z githuba, domyślnie aplikacja będzie sprawdzać czy są dostępne nowe wydania apk. Kliknij przełącznik aby, wyłączyć automatyczne sprawdzanie</string>
@@ -612,7 +612,7 @@
 	<string name="settings_network_playback_title">Odtwarzanie sieciowe</string>
     <string name="settings_upnp_title">Odtwarzacze UPnP / DLNA</string>
     <string name="settings_upnp_summary">Znajdź i odtwarzaj na odtwarzaczach UPnP i DLNA w twojej sieci. Szuka tylko wtedy gdy, wybieranie urządzenia jest otwarte.</string>
-    <string name="settings_lan_remote_summary">Steruj aplikacją Tempus na innym urządzeniu, lub pozwól jej kontrolować to urządzenie. Nasłuchuje tylko gdy odbiornik jest włączony, i szuka tylko gdy ty szukasz urządzeń.</string>
+    <string name="settings_lan_remote_summary">Steruj aplikacją Notturno na innym urządzeniu, lub pozwól jej kontrolować to urządzenie. Nasłuchuje tylko gdy odbiornik jest włączony, i szuka tylko gdy ty szukasz urządzeń.</string>
     <string name="settings_theme">Motyw</string>
 	<string name="settings_dark_theme_style">Styl ciemnego motywu</string>
     <string name="settings_tile_size">Rozmiar kafelków</string>
@@ -656,7 +656,7 @@
 	<string name="toolbar_navigation_drawer_open">Szuflada nawigacji otwarta</string>
     <string name="toolbar_navigation_drawer_closed">Szuflada nawigacji zamknięta</string>
     <string name="favorite_icon_description">Polub</string>
-    <string name="asset_link_clipboard_label">Link zasobu Tempus</string>
+    <string name="asset_link_clipboard_label">Link zasobu Notturno</string>
     <string name="asset_link_label_song">UID piosenki</string>
     <string name="asset_link_label_album">UID albumu</string>
     <string name="asset_link_label_artist">UID wykonmawcy</string>
@@ -715,7 +715,7 @@
     <string name="streaming_cache_storage_external_dialog_positive_button">Zewnętrzna</string>
     <string name="streaming_cache_storage_internal_dialog_negative_button">Wewnętrzna</string>
 	<string name="download_storage_directory_dialog_neutral_button">Katalog</string>
-    <string name="support_url">https://ko-fi.com/eddyizm</string>
+    <string name="support_url">https://github.com/nightwatch75/notturno</string>
     <string name="track_info_album">Album</string>
     <string name="track_info_artist">Wykonawca</string>
     <string name="track_info_bit_depth">Głębia bitowa</string>
@@ -744,9 +744,9 @@
     <string name="undraw_page">unDraw</string>
     <string name="undraw_thanks">Specjalne podziękowania dla unDraw bez którego ilustracji nie mogliśmy uczynić tej aplikacji jeszcze piękniejszą.</string>
     <string name="undraw_url">https://undraw.co/</string>
-    <string name="widget_label">Widget Tempus</string>
+    <string name="widget_label">Widget Notturno</string>
     <string name="widget_not_playing">Nie odtwarza</string>
-    <string name="widget_placeholder_subtitle">Otwórz Tempus</string>
+    <string name="widget_placeholder_subtitle">Otwórz Notturno</string>
     <string name="widget_time_elapsed_placeholder">0:00</string>
     <string name="widget_time_duration_placeholder">0:00</string>
     <string name="widget_content_desc_album_art">Okładka albumu</string>
@@ -822,12 +822,12 @@
         <item>Niestandardowwy\u2026</item>
     </string-array>
 	
-    <string name="customactivityoncrash_error_activity_error_occurred_explanation">Tempus przestał działać.</string>
+    <string name="customactivityoncrash_error_activity_error_occurred_explanation">Notturno przestał działać.</string>
 
     <!-- Crash Activity -->
 
     <string name="ca_info_label">Informacja</string>
-    <string name="ca_info_title">Tempus przestał działać</string>
+    <string name="ca_info_title">Notturno przestał działać</string>
 	
     <string name="ca_info_description">
         Otwórz problem na GitHubie i załącz kopię raportu, aby pomóć rozwiązać ten problem.
@@ -866,7 +866,7 @@
     <string name="la_appbar_themes_title">Edytor motywów</string>
     <string name="la_appbar_server_title">Edytor serwerów</string>
 
-    <string name="la_greeting_description">Witaj w Tempus, otwarto-źródłowym kliencie muzycznym dla Subsonic, stworzonym i zbudowanym natywnie dla Androida.</string>
+    <string name="la_greeting_description">Witaj w Notturno, otwarto-źródłowym kliencie muzycznym dla Subsonic, stworzonym i zbudowanym natywnie dla Androida.</string>
 
     <string name="la_server_title">Konfiguracja serwera</string>
 

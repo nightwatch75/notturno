@@ -14,12 +14,12 @@
     <string name="lan_queue_changed">La coda è cambiata. Riaprila per aggiornarla.</string>
     <string name="lan_pair_first">Abbina prima i telefoni nelle impostazioni Player remoto, poi seleziona di nuovo il ricevente.</string>
     <string name="lan_server_mismatch">I telefoni devono usare lo stesso indirizzo del server musicale.</string>
-    <string name="lan_update_both">Aggiorna Tempus su entrambi i telefoni per usare il controllo remoto in tempo reale.</string>
+    <string name="lan_update_both">Aggiorna Notturno su entrambi i telefoni per usare il controllo remoto in tempo reale.</string>
     <string name="lan_menu_summary">Abbina i telefoni e controlla la riproduzione sulla rete locale.</string>
     <string name="lan_device_name">Nome dispositivo</string>
     <string name="lan_name_saved">Nome salvato. Disattiva e riattiva la disponibilità per aggiornarlo sulla rete.</string>
     <string name="lan_allow">Consenti il controllo dalla rete locale</string>
-    <string name="lan_available">Tempus disponibile sulla rete locale</string>
+    <string name="lan_available">Notturno disponibile sulla rete locale</string>
     <string name="lan_disable">Disattiva</string>
     <string name="lan_pair_new">Rendi disponibile per abbinamento</string>
     <string name="lan_paired">Telecomandi abbinati</string>
@@ -42,7 +42,7 @@
     <string name="lan_queue_limit">Per questa anteprima scegli una coda musicale da 1 a 500 brani, senza duplicati. Radio e podcast non sono supportati.</string>
     <string name="lan_identity_error">Impossibile preparare il certificato di questo telefono per il collegamento.</string>
     <string name="lan_connect_error">Telefono trovato, ma non raggiungibile. Verifica che sia ancora disponibile e che la rete o una VPN non blocchino il collegamento tra i telefoni.</string>
-    <string name="lan_tls_error">Connessione sicura non riuscita durante lo scambio dei certificati. Aggiorna Tempus su entrambi i telefoni e riprova.</string>
+    <string name="lan_tls_error">Connessione sicura non riuscita durante lo scambio dei certificati. Aggiorna Notturno su entrambi i telefoni e riprova.</string>
     <string name="lan_identity_mismatch">Impossibile verificare l’identità del telefono. Ripeti la ricerca e confronta nuovamente i codici.</string>
     <string name="lan_response_error">Connessione aperta, ma risposta di abbinamento non ricevuta o rifiutata. Sul ricevente attiva “Rendi disponibile per abbinamento” e riprova.</string>
     <string name="lan_device_status">%1$s · %2$s</string>
