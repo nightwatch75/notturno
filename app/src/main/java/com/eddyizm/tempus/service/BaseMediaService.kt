@@ -888,17 +888,6 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
 
     fun setPlayer(oldPlayer: Player?, newPlayer: Player) {
         if (oldPlayer === newPlayer) return
-        if (oldPlayer != null) {
-            val currentQueue = getQueueFromPlayer(oldPlayer)
-            val currentIndex = oldPlayer.currentMediaItemIndex
-            val currentPosition = oldPlayer.currentPosition
-            val isPlaying = oldPlayer.playWhenReady
-            oldPlayer.stop()
-            val repeatFrom = if (oldPlayer.isCommandAvailable(Player.COMMAND_SET_REPEAT_MODE)) oldPlayer else exoplayer
-            if (oldPlayer is UpnpPlayer || newPlayer is UpnpPlayer) newPlayer.repeatMode = repeatFrom.repeatMode
-            newPlayer.setMediaItems(currentQueue, currentIndex, currentPosition)
-            newPlayer.playWhenReady = isPlaying
-            newPlayer.prepare()
         playerHandOff = true
         try {
             if (oldPlayer != null) {
@@ -907,6 +896,8 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
                 val currentPosition = oldPlayer.currentPosition
                 val isPlaying = oldPlayer.playWhenReady
                 oldPlayer.stop()
+                val repeatFrom = if (oldPlayer.isCommandAvailable(Player.COMMAND_SET_REPEAT_MODE)) oldPlayer else exoplayer
+                if (oldPlayer is UpnpPlayer || newPlayer is UpnpPlayer) newPlayer.repeatMode = repeatFrom.repeatMode
                 newPlayer.setMediaItems(currentQueue, currentIndex, currentPosition)
                 newPlayer.playWhenReady = isPlaying
                 newPlayer.prepare()
