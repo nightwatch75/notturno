@@ -13,6 +13,8 @@ Default branch: `tempus-mod`.
   `MediaManager.startGlobalShuffle` / `continueGlobalShuffle`.
 - **Go to album**: a media-session button (notification, Android Auto) that rebuilds the queue as the album of the playing song.
   Choose where it sits in Settings, first/second custom button: Android Auto shows only 4 custom buttons.
+- **Server editor** (`LoginServerFragment.kt`, `util/ServerAddress.kt`): address first, scheme added when missing, name defaults to the host, "Advanced" section, Test works for a new server.
+- **Upstream PRs applied before release**: #1338 (mTLS certificate chooser) and #1285 (OpenSubsonic `playbackReport`).
 
 ## Following upstream
 
@@ -33,3 +35,18 @@ Before a rebase, keep a safety branch: `git branch backup/pre-<upstream version>
 - Icon: moon and eye with a music note, purple. Vector files `ic_launcher_*` in `app/src/main/res/drawable`.
 - The APK is a debug build, signed with the local debug key: updates install only over APKs signed with the same key.
 - The radio cover lookup sends artist and title to the three services above (see `PRIVACY_POLICY.md`).
+
+## Fragile spots
+
+Check these first after a rebase or when something breaks.
+
+- **`LoginServerFragment.kt` and `fragment_login_server.xml`**: upstream (tvillega) is still reworking the login editor. Expect conflicts; keep our changes small.
+- **#1285 `playbackReport`**: merged by hand into `BaseMediaService` (`setPlayer` is wrapped in a try/finally, `onPlaybackStateChanged` and `onPositionDiscontinuity` carry extra calls). Never tested against a real server that supports the extension.
+- **#1338 and #1285 are cherry-picked**: when upstream merges them, the rebase will conflict on the duplicate commits. Drop ours with `git rebase --skip` and keep the upstream version.
+- **`BaseSessionCallback`**: Go to album works only while `customCommandGotoAlbum` is in `customLayoutCommandButtons`, which feeds `mediaNotificationSessionCommands`. A button missing there is silently hidden.
+- **Shuffle all** recognizes its songs by id only (`globalShuffleIds`): another queue that ends with one of those songs also continues at random.
+- **Radio covers** depend on three external services. MusicBrainz allows 1 request per second and wants a descriptive User-Agent (`Notturno/<version> (repo URL)`).
+- **Application id vs namespace**: the namespace stays `com.eddyizm.tempus`, only `applicationId` changed. Code must use `BuildConfig.APPLICATION_ID`, never a literal. The instrumented test `CastArtworkConverterTest` hard-codes the debug authority.
+- **Icons**: the `degoogled` flavor no longer has its own logo copies. If upstream adds drawables there again, the red Tempus logo comes back.
+- **Debug signing**: the APK is signed with the local debug key. Another machine has another key, so it cannot update the installed app.
+- **Local scan test**: `RadioCoverScan.kt` is excluded from the build; `cover-check/scan/stations.json` is renamed to `stations.off` around Gradle runs.

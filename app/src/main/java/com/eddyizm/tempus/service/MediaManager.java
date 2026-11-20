@@ -790,7 +790,7 @@ public class MediaManager {
     // shortcut: a song is recognized by id only, so another queue ending with one of these songs also continues at random.
     private static volatile Set<String> globalShuffleIds = Collections.emptySet();
     private static final long GLOBAL_SHUFFLE_RETRY_MS = 30_000L;
-    private static long globalShuffleRefillAt = 0L;
+    private static volatile long globalShuffleRefillAt = 0L;
 
     public static void markGlobalShuffle(List<String> songIds) {
         globalShuffleIds = new HashSet<>(songIds);
