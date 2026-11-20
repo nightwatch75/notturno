@@ -3,7 +3,7 @@
 Fork of [eddyizm/tempus](https://github.com/eddyizm/tempus), kept as a patch set on top of upstream `development`.
 The upstream PR for the radio covers (#1281) was not accepted, so the changes live here.
 
-Default branch: `mod`.
+Default branch: `tempus-mod`.
 
 ## What the mod adds
 
@@ -21,11 +21,11 @@ git fetch origin
 git rebase origin/development      # conflicts are usually in BaseSessionCallback, MediaManager, BaseMediaService
 ./gradlew testTempusDebugUnitTest testDegoogledDebugUnitTest
 ./gradlew assembleTempusDebug
-git push --force-with-lease fork mod
+git push --force-with-lease fork tempus-mod
 ```
 
 `origin` is upstream, `fork` is this repository. Sync from time to time, or when a release of interest appears.
-Before a rebase, keep a safety branch: `git branch backup/pre-<upstream version> mod`.
+Before a rebase, keep a safety branch: `git branch backup/pre-<upstream version> tempus-mod`.
 
 ## Notes
 
