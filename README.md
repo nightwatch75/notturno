@@ -4,6 +4,8 @@
 
 ---
 
+> **This is a personal fork** with radio song covers, "Shuffle all" and "Go to album". See [FORK.md](FORK.md).
+
 <p align="center">
   <b>Access your music library on all your android devices</b>
 </p>
