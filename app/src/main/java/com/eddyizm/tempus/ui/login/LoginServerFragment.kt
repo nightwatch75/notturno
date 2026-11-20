@@ -26,6 +26,7 @@ import com.eddyizm.tempus.repository.SystemRepository
 import com.eddyizm.tempus.subsonic.utils.CacheUtil
 import com.eddyizm.tempus.ui.activity.MainActivity
 import com.eddyizm.tempus.util.CustomHeaders
+import com.eddyizm.tempus.util.ServerAddress
 import com.eddyizm.tempus.util.ServerHeaders
 import com.eddyizm.tempus.viewmodel.ServerViewModel
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
@@ -95,7 +96,7 @@ class LoginServerFragment : Fragment() {
 
         val defaultServer = Server(
             serverId = "Unselected",
-            serverName = "Add new server",
+            serverName = getString(R.string.la_server_dropdown_add_new),
             username = "",
             password = "",
             address = "",
@@ -133,7 +134,7 @@ class LoginServerFragment : Fragment() {
                 binding.serversList.setText(serverList[0].serverName, false)
                 binding.createOrUpdateButton.text = getString(R.string.la_server_button_create)
                 binding.deleteButton.isEnabled = false
-                binding.testButton.isEnabled = false
+                binding.testButton.isEnabled = true
                 isInitialSyncDone = true
             }
         }
@@ -156,7 +157,7 @@ class LoginServerFragment : Fragment() {
     private fun onFirstServerSelected() {
         binding.createOrUpdateButton.text = getString(R.string.la_server_button_create)
         binding.deleteButton.isEnabled = false
-        binding.testButton.isEnabled = false
+        binding.testButton.isEnabled = true
         binding.serverNameField.setText("")
         binding.serverUserField.setText("")
         binding.serverPasswordField.setText("")
@@ -364,8 +365,14 @@ class LoginServerFragment : Fragment() {
 
         val errMsgEmpty: String = getString(R.string.la_server_field_server_empty_error)
         val errMsgUrl: String = getString(R.string.la_server_field_server_url_error)
+        binding.serverPublicUrlField.setText(ServerAddress.normalize(binding.serverPublicUrlField.text.toString()))
+        binding.serverLocalUrlField.setText(ServerAddress.normalize(binding.serverLocalUrlField.text.toString()))
+        if (binding.serverNameField.text.isNullOrBlank()) {
+            val url = binding.serverPublicUrlField.text.toString()
+            binding.serverNameField.setText(ServerAddress.displayName(url) ?: url)
+        }
         if (binding.serverNameField.text.toString().isEmpty()) {
-            binding.serverNameField.error = errMsgEmpty
+            binding.serverPublicUrlField.error = errMsgEmpty
             return false
         } else if (binding.serverUserField.text.toString().isEmpty()) {
             binding.serverUserField.error = errMsgEmpty

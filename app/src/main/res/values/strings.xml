@@ -886,10 +886,12 @@
     <string name="la_server_title">Server Setup</string>
     <string name="la_server_field_server_empty_error">Mandatory field</string>
     <string name="la_server_field_server_url_error">URL not valid</string>
-    <string name="la_server_field_server_name">Server name</string>
+    <string name="la_server_field_server_name">Server name (optional)</string>
     <string name="la_server_field_server_user">User name</string>
     <string name="la_server_field_server_pass">Password</string>
-    <string name="la_server_field_server_public_url">Public URL</string>
+    <string name="la_server_field_server_public_url">Server address</string>
+    <string name="la_server_url_helper">URL, IP or hostname, e.g. music.example.com or 192.168.1.10:4533</string>
+    <string name="la_server_section_advanced">Advanced</string>
     <string name="la_server_field_server_local_url">Local URL</string>
     <string name="la_server_field_server_cert">Client certificate (optional)</string>
     <string name="la_server_field_plaintext_password_checkbox">Plaintext password</string>
