@@ -14,7 +14,7 @@ private const val MAX_ARCHIVE_ATTEMPTS = 5
 private const val CACHE_SIZE = 50
 private const val MUSICBRAINZ_DELAY_MS = 1100L
 private const val TIMEOUT_MS = 8000
-private val USER_AGENT = "Notturno/${BuildConfig.VERSION_NAME} (https://github.com/nightwatch75/tempus)"
+private val USER_AGENT = "Notturno/${BuildConfig.VERSION_NAME} (https://github.com/nightwatch75/notturno)"
 
 private val titleNoise = Regex(
     """\s*[(\[][^)\]]*(edit|remaster|mix|version|live|mono|stereo)[^)\]]*[)\]]""",
