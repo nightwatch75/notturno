@@ -265,7 +265,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
-            app:defaultValue="[repeatID]"
+            app:defaultValue="[gotoAlbumID]"
             app:dialogTitle="@string/settings_custom_command_second_button"
             app:entries="@array/custom_commands_titles"
             app:entryValues="@array/custom_commands_values"
@@ -371,7 +371,7 @@
 
         <SwitchPreference
             android:title="@string/settings_radio_track_covers_title"
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:summary="@string/settings_radio_track_covers_summary"
             android:key="radio_track_covers" />
 

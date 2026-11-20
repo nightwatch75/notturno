@@ -696,7 +696,7 @@ object Preferences {
 
     @JvmStatic
     fun isRadioTrackCoversEnabled(): Boolean {
-        return App.getInstance().preferences.getBoolean(RADIO_TRACK_COVERS, false)
+        return App.getInstance().preferences.getBoolean(RADIO_TRACK_COVERS, true)
     }
 
     @JvmStatic
@@ -752,7 +752,7 @@ object Preferences {
 
     @JvmStatic
     fun getCustomCommandSecondButton(): String? {
-        return App.getInstance().preferences.getString(CUSTOM_COMMAND_SECOND_BUTTON, "[repeatID]")
+        return App.getInstance().preferences.getString(CUSTOM_COMMAND_SECOND_BUTTON, "[gotoAlbumID]")
     }
 
     @JvmStatic

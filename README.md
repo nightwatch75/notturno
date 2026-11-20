@@ -29,9 +29,9 @@ It is a personal fork, built on [Tempus](https://github.com/eddyizm/tempus), and
 
 Added in Notturno:
 
-- **Radio song covers**: shows the cover of the song on air. It reads the stream title and looks the cover up on MusicBrainz and Cover Art Archive, then Deezer, then iTunes. Off by default.
+- **Radio song covers**: shows the cover of the song on air. It reads the stream title and looks the cover up on MusicBrainz and Cover Art Archive, then Deezer, then iTunes. On by default, switch off in Settings.
 - **Shuffle all**: endless random play of the whole library, from a Home button and from the Android Auto tree.
-- **Go to album**: a player button (notification, Android Auto) that turns the queue into the album of the song in play. Choose its place in Settings, custom buttons.
+- **Go to album**: a player button (notification, Android Auto) that turns the queue into the album of the song in play. Android Auto shows Like first and Go to album second; change them in Settings, custom buttons.
 - **Server editor**: type a bare host or IP (`music.example.com`, `192.168.1.10:4533`) and the scheme is added; the name defaults to the host; Test works before saving.
 - **Playback reports**: sends play state to servers that support the OpenSubsonic `playbackReport` extension.
 - **Certificate chooser fix** for servers that need a client certificate.
@@ -52,7 +52,7 @@ Gradle downloads Java 21. Unit tests: `./gradlew testTempusDebugUnitTest`.
 
 ## Privacy
 
-The app talks to your server only. The optional radio cover lookup sends the artist and title of the song on air to MusicBrainz, Deezer and iTunes. See [PRIVACY_POLICY.md](PRIVACY_POLICY.md).
+The app talks to your server only. The radio cover lookup (on by default, switch it off in Settings) sends the artist and title of the song on air to MusicBrainz, Deezer and iTunes. See [PRIVACY_POLICY.md](PRIVACY_POLICY.md).
 
 ## License
 
