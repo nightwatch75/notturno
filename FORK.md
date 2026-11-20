@@ -29,7 +29,7 @@ Before a rebase, keep a safety branch: `git branch backup/pre-<upstream version>
 
 ## Notes
 
-- App name "Notturno", application id `com.nightwatch75.tempus` (`.degoogled.tempus` and `.play.tempus` for the other flavors, `.debug` suffix on debug builds). It installs next to the official Tempus. The code keeps the `com.eddyizm.tempus` package so rebases stay clean.
+- App name "Notturno", application id `com.nightwatch75.notturno` (`.degoogled.notturno` and `.play.notturno` for the other flavors, `.debug` suffix on debug builds). It installs next to the official Tempus. The code keeps the `com.eddyizm.tempus` package so rebases stay clean.
 - Icon: moon and eye with a music note, purple. Vector files `ic_launcher_*` in `app/src/main/res/drawable`.
 - The APK is a debug build, signed with the local debug key: updates install only over APKs signed with the same key.
 - The radio cover lookup sends artist and title to the three services above (see `PRIVACY_POLICY.md`).

@@ -54,17 +54,17 @@ android {
     productFlavors {
         tempus {
             dimension = "default"
-            applicationId = 'com.nightwatch75.tempus'
+            applicationId = 'com.nightwatch75.notturno'
         }
 
         degoogled {
             dimension = "default"
-            applicationId = "com.nightwatch75.degoogled.tempus"
+            applicationId = "com.nightwatch75.degoogled.notturno"
         }
 
         play {
             dimension = "default"
-            applicationId = "com.nightwatch75.play.tempus"
+            applicationId = "com.nightwatch75.play.notturno"
         }
     }
 
