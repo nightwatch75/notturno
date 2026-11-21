@@ -15,8 +15,8 @@ android {
         //noinspection OldTargetApi
         targetSdk = 37
 
-        versionCode 53
-        versionName '4.32.1-dev'
+        versionCode = (findProperty('notturnoVersionCode') ?: '53').toString().toInteger()
+        versionName = findProperty('notturnoVersion') ?: '4.32.1-dev'
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         javaCompileOptions {
@@ -68,8 +68,22 @@ android {
         }
     }
 
+    // Release signing: keystore data from ~/.gradle/gradle.properties or the environment. Without it the release stays unsigned.
+    signingConfigs {
+        release {
+            def prop = { String name -> findProperty(name) ?: System.getenv(name) }
+            if (prop('NOTTURNO_STORE_FILE')) {
+                storeFile = file(prop('NOTTURNO_STORE_FILE'))
+                storePassword = prop('NOTTURNO_STORE_PASSWORD')
+                keyAlias = prop('NOTTURNO_KEY_ALIAS')
+                keyPassword = prop('NOTTURNO_KEY_PASSWORD')
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (signingConfigs.release.storeFile != null) signingConfig = signingConfigs.release
             shrinkResources = true
             minifyEnabled = true
             debuggable = false

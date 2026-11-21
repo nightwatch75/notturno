@@ -50,3 +50,13 @@ Check these first after a rebase or when something breaks.
 - **Icons**: the `degoogled` flavor no longer has its own logo copies. If upstream adds drawables there again, the red Tempus logo comes back.
 - **Debug signing**: the APK is signed with the local debug key. Another machine has another key, so it cannot update the installed app.
 - **Local scan test**: `RadioCoverScan.kt` is excluded from the build; `cover-check/scan/stations.json` is renamed to `stations.off` around Gradle runs.
+
+## Releases and updates
+
+- **Signing**: `app/build.gradle` reads `NOTTURNO_STORE_FILE`, `NOTTURNO_STORE_PASSWORD`, `NOTTURNO_KEY_ALIAS`, `NOTTURNO_KEY_PASSWORD` from `~/.gradle/gradle.properties` or the environment. Without them the release APK is unsigned. Keep the keystore and its password backed up: a lost key means no more updates over installed APKs.
+- **Local release**: `./gradlew assembleTempusRelease -PnotturnoVersion=4.32.1.1 -PnotturnoVersionCode=1001`.
+- **Public release**: push a tag `vX.Y.Z[.N]`. `.github/workflows/notturno_release.yml` builds and signs `tempus` and `degoogled`, and publishes them (not a draft). It needs the repo secrets `NOTTURNO_KEYSTORE_BASE64`, `NOTTURNO_STORE_PASSWORD`, `NOTTURNO_KEY_ALIAS`, `NOTTURNO_KEY_PASSWORD`. The upstream release and prerelease workflows are disabled on the fork with `gh workflow disable`.
+- **Version rules**: `versionCode` must grow with every release (CI uses 1000 + run number). A fork-only release adds a fourth part to the upstream version (`v4.32.1.1`).
+- **Update check** (`tempus` flavor only): `UpdateUtil.isNewer` compares the app version with the tag of the latest published release of `nightwatch75/notturno`. Draft releases are invisible to it.
+- **Fragile**: the `versionCode` and `versionName` lines in `app/build.gradle` change on every upstream version bump, so a rebase conflicts there. Keep our `findProperty` form.
+
