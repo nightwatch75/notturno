@@ -59,4 +59,5 @@ Check these first after a rebase or when something breaks.
 - **Version rules**: `versionCode` must grow with every release (CI uses 1000 + run number). A fork-only release adds a fourth part to the upstream version (`v4.32.1.1`).
 - **Update check** (`tempus` flavor only): `UpdateUtil.isNewer` compares the app version with the tag of the latest published release of `nightwatch75/notturno`. Draft releases are invisible to it.
 - **Fragile**: the `versionCode` and `versionName` lines in `app/build.gradle` change on every upstream version bump, so a rebase conflicts there. Keep our `findProperty` form.
+- **Android Auto tree** (`MediaBrowserTree.kt`, `tempus` flavor): Quick mix, My mix, Discovery mix and Random are not added to Home, to the "For you" bundle or to the Tracks bundle. The nodes and the `allFunctions` list stay as upstream: the tab choices are saved as indexes, so removing an entry would shift them. If upstream edits these lines, keep the removed `addChild` calls out.
 

@@ -12,14 +12,14 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '21'
 
-      - uses: gradle/actions/setup-gradle@v4
+      - uses: gradle/actions/setup-gradle@v6
 
       - name: Restore keystore
         run: echo "${{ secrets.NOTTURNO_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/notturno-release.jks"
@@ -45,7 +45,7 @@ jobs:
           cp app/build/outputs/apk/degoogled/release/*.apk "out/notturno-${GITHUB_REF_NAME#v}-degoogled.apk"
 
       - name: Publish release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           generate_release_notes: true
           files: out/*.apk

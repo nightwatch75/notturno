@@ -548,10 +548,7 @@ object MediaBrowserTree {
             .forEach { function ->
                 when (function) {
                     ConstantsAA.MADE_FOR_YOU_ID -> {
-                        // add Quick Mix, My Mix and Discovery Mix instead of Made For You to Home
-                        treeNodes[ConstantsAA.HOME_ID]!!.addChild(ConstantsAA.QUICKMIX_ID)
-                        treeNodes[ConstantsAA.HOME_ID]!!.addChild(ConstantsAA.MYMIX_ID)
-                        treeNodes[ConstantsAA.HOME_ID]!!.addChild(ConstantsAA.DISCOVERYMIX_ID)
+                        // Notturno: no mixes in Home, Shuffle all covers the random play
                     }
                     ConstantsAA.STARRED_BUNDLE_ID -> {
                         // add starred function instead of Starred bundle to Home
@@ -560,8 +557,7 @@ object MediaBrowserTree {
                         treeNodes[ConstantsAA.HOME_ID]?.addChild(ConstantsAA.STARRED_TRACKS_ID)
                     }
                     ConstantsAA.TRACKS_ID -> {
-                        // add Random and Recent instead of Tracks to Home
-                        treeNodes[ConstantsAA.HOME_ID]?.addChild(ConstantsAA.RANDOM_ID)
+                        // add Recent instead of Tracks to Home (Notturno: no Random, Shuffle all covers it)
                         treeNodes[ConstantsAA.HOME_ID]?.addChild(ConstantsAA.RECENT_TRACKS_ID)
                     }
                     else -> treeNodes[ConstantsAA.HOME_ID]?.addChild(function)
@@ -569,9 +565,6 @@ object MediaBrowserTree {
             }
 
         // build Made For You bundle
-        treeNodes[ConstantsAA.MADE_FOR_YOU_ID]!!.addChild(ConstantsAA.QUICKMIX_ID)
-        treeNodes[ConstantsAA.MADE_FOR_YOU_ID]!!.addChild(ConstantsAA.MYMIX_ID)
-        treeNodes[ConstantsAA.MADE_FOR_YOU_ID]!!.addChild(ConstantsAA.DISCOVERYMIX_ID)
         treeNodes[ConstantsAA.MADE_FOR_YOU_ID]!!.addChild(ConstantsAA.STARRED_ARTISTS_ID)
         treeNodes[ConstantsAA.MADE_FOR_YOU_ID]!!.addChild(ConstantsAA.STARRED_ALBUMS_ID)
         treeNodes[ConstantsAA.MADE_FOR_YOU_ID]!!.addChild(ConstantsAA.STARRED_TRACKS_ID)
@@ -582,7 +575,6 @@ object MediaBrowserTree {
         treeNodes[ConstantsAA.STARRED_BUNDLE_ID]?.addChild(ConstantsAA.STARRED_TRACKS_ID)
 
         // create tracks bundle
-        treeNodes[ConstantsAA.TRACKS_ID]?.addChild(ConstantsAA.RANDOM_ID)
         treeNodes[ConstantsAA.TRACKS_ID]?.addChild(ConstantsAA.GENRES_ID)
         treeNodes[ConstantsAA.TRACKS_ID]?.addChild(ConstantsAA.RECENT_TRACKS_ID)
         treeNodes[ConstantsAA.TRACKS_ID]?.addChild(ConstantsAA.STARRED_TRACKS_ID)
