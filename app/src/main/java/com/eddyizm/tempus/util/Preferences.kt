@@ -695,6 +695,15 @@ object Preferences {
     }
 
     @JvmStatic
+    fun getGlobalShuffleIds(): Set<String> =
+        App.getInstance().preferences.getStringSet("global_shuffle_ids", emptySet())?.toSet() ?: emptySet()
+
+    @JvmStatic
+    fun setGlobalShuffleIds(ids: Set<String>) {
+        App.getInstance().preferences.edit().putStringSet("global_shuffle_ids", ids).apply()
+    }
+
+    @JvmStatic
     fun isRadioTrackCoversEnabled(): Boolean {
         return App.getInstance().preferences.getBoolean(RADIO_TRACK_COVERS, true)
     }

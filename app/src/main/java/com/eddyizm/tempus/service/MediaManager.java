@@ -37,6 +37,7 @@ import com.eddyizm.tempus.util.MappingUtil;
 import com.eddyizm.tempus.util.MusicUtil;
 import com.eddyizm.tempus.util.ConnectionUtil;
 import com.eddyizm.tempus.util.OpenSubsonicExtensionsUtil;
+import com.eddyizm.tempus.util.ArtistSpread;
 import com.eddyizm.tempus.util.Preferences;
 import com.eddyizm.tempus.viewmodel.PlaybackViewModel;
 import com.google.common.util.concurrent.FutureCallback;
@@ -788,18 +789,43 @@ public class MediaManager {
 
     private static final int GLOBAL_SHUFFLE_BATCH = 100;
     // shortcut: a song is recognized by id only, so another queue ending with one of these songs also continues at random.
-    private static volatile Set<String> globalShuffleIds = Collections.emptySet();
+    // Saved in the preferences, so a restart keeps the shuffle going instead of falling back to similar songs.
+    private static volatile Set<String> globalShuffleIds = null;
     private static final long GLOBAL_SHUFFLE_RETRY_MS = 30_000L;
     private static volatile long globalShuffleRefillAt = 0L;
 
+    private static Set<String> globalShuffleIds() {
+        Set<String> ids = globalShuffleIds;
+        if (ids == null) {
+            ids = Preferences.getGlobalShuffleIds();
+            globalShuffleIds = ids;
+        }
+        return ids;
+    }
+
+    private static void setGlobalShuffleIds(Set<String> ids) {
+        globalShuffleIds = ids;
+        Preferences.setGlobalShuffleIds(ids);
+    }
+
     public static void markGlobalShuffle(List<String> songIds) {
-        globalShuffleIds = new HashSet<>(songIds);
+        setGlobalShuffleIds(new HashSet<>(songIds));
         globalShuffleRefillAt = 0L;
     }
 
+    /** The queue is no longer a global shuffle (the user chose an album, for instance). */
+    public static void clearGlobalShuffle() {
+        setGlobalShuffleIds(Collections.emptySet());
+    }
+
+    public static List<Child> spreadArtists(List<Child> songs, String previousArtist) {
+        return ArtistSpread.apply(songs, previousArtist, Child::getArtist);
+    }
+
     public static void startGlobalShuffle(ListenableFuture<MediaBrowser> mediaBrowserListenableFuture, List<Child> songs) {
-        markGlobalShuffle(songs.stream().map(Child::getId).collect(Collectors.toList()));
-        startQueue(mediaBrowserListenableFuture, songs, 0);
+        List<Child> spread = spreadArtists(songs, null);
+        markGlobalShuffle(spread.stream().map(Child::getId).collect(Collectors.toList()));
+        startQueue(mediaBrowserListenableFuture, spread, 0);
     }
 
     /**
@@ -807,7 +833,7 @@ public class MediaManager {
      * adds another batch of random songs of the whole library and returns true.
      */
     public static boolean continueGlobalShuffle(MediaItem lastItem, QueueTarget queueTarget) {
-        if (!globalShuffleIds.contains(lastItem.mediaId)) return false;
+        if (!globalShuffleIds().contains(lastItem.mediaId)) return false;
         // The request has no failure callback: a time guard, not a flag, so a failed refill can be tried again.
         long now = SystemClock.elapsedRealtime();
         if (now - globalShuffleRefillAt < GLOBAL_SHUFFLE_RETRY_MS) return true;
@@ -818,15 +844,17 @@ public class MediaManager {
             @Override
             public void onChanged(List<Child> random) {
                 randomSongs.removeObserver(this);
-                if (random == null || random.isEmpty() || !globalShuffleIds.contains(lastItem.mediaId)) return;
+                if (random == null || random.isEmpty() || !globalShuffleIds().contains(lastItem.mediaId)) return;
                 MusicUtil.ratingFilter(random);
                 List<Child> fresh = dedupAgainstQueue(random, queueTarget);
                 if (fresh.isEmpty()) fresh = random; // the queue already holds the whole library
+                CharSequence lastArtist = lastItem.mediaMetadata.artist;
+                fresh = spreadArtists(fresh, lastArtist != null ? lastArtist.toString() : null);
                 Log.d(TAG, "Global shuffle: adding " + fresh.size() + " random tracks");
 
-                Set<String> ids = new HashSet<>(globalShuffleIds);
+                Set<String> ids = new HashSet<>(globalShuffleIds());
                 for (Child song : fresh) ids.add(song.getId());
-                globalShuffleIds = ids;
+                setGlobalShuffleIds(ids);
                 enqueue(queueTarget, fresh, true);
             }
         });

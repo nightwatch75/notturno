@@ -878,6 +878,9 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
             val position = tracks.indexOfFirst { it.id == playing.mediaId }
             if (position < 0 || player.currentMediaItem?.mediaId != playing.mediaId) return@getAlbumTracks
             val items = MappingUtil.mapMediaItems(tracks)
+            MediaManager.clearGlobalShuffle()
+            // The player alone changes below: without this the saved queue stays the old one and comes back at the next start.
+            QueueRepository().insertAll(tracks, true, 0)
             val index = player.currentMediaItemIndex
             player.removeMediaItems(index + 1, player.mediaItemCount)
             player.removeMediaItems(0, index)

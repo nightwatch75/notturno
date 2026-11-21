@@ -11,6 +11,7 @@ import androidx.media3.session.MediaLibraryService
 import androidx.media3.session.MediaSession
 import com.eddyizm.tempus.repository.AutomotiveRepository
 import com.eddyizm.tempus.repository.QueueRepository
+import com.eddyizm.tempus.util.ArtistSpread
 import com.eddyizm.tempus.util.Constants
 import com.eddyizm.tempus.util.ConstantsAA
 import com.eddyizm.tempus.util.MappingUtil
@@ -211,7 +212,7 @@ class MediaLibrarySessionCallback(
             firstItem.mediaId == ConstantsAA.SHUFFLE_ALL_ID -> Futures.transform(
                 automotiveRepository.getRandomSongs(ConstantsAA.MAX_SHUFFLE_ITEMS),
                 { result ->
-                    val songs: List<MediaItem> = result.value ?: emptyList()
+                    val songs: List<MediaItem> = ArtistSpread.apply(result.value ?: emptyList(), null) { it.mediaMetadata.artist?.toString() }
                     // A failed future keeps the current queue, an empty list would clear it.
                     if (songs.isEmpty()) throw NoSuchElementException("No random songs")
                     MediaManager.markGlobalShuffle(songs.map { it.mediaId })
