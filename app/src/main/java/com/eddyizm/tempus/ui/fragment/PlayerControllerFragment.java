@@ -54,6 +54,7 @@ import com.eddyizm.tempus.ui.activity.MainActivity;
 import com.eddyizm.tempus.ui.dialog.PlaybackSpeedDialog;
 import com.eddyizm.tempus.ui.dialog.PlaylistChooserDialog;
 import com.eddyizm.tempus.ui.dialog.SleepTimerDialog;
+import com.eddyizm.tempus.util.ArtistLine;
 import com.eddyizm.tempus.util.SleepTimerManager;
 
 import androidx.core.widget.ImageViewCompat;
@@ -419,10 +420,8 @@ public class PlayerControllerFragment extends Fragment {
                                 ? String.format("%02d", mediaMetadata.trackNumber) + ". "
                                         + String.valueOf(mediaMetadata.title)
                                 : String.valueOf(mediaMetadata.title));
-        setTextIfChanged(playerArtistNameLabel,
-                mediaMetadata.artist != null
-                        ? String.valueOf(mediaMetadata.artist)
-                        : "");
+        String plainArtist = ArtistLine.plainArtist(mediaMetadata);
+        setTextIfChanged(playerArtistNameLabel, plainArtist != null ? plainArtist : "");
 
         playerMediaTitleLabel.setSelected(true);
         playerArtistNameLabel.setSelected(true);

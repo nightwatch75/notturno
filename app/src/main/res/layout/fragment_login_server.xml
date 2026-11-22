@@ -62,22 +62,65 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
-            <!-- Server public url field -->
+            <!-- Server address: scheme, host and port -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/server_scheme_field_container"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/server_scheme_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:focusable="true"
+                        android:clickable="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/server_public_url_field_container"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/server_public_url_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/la_server_field_server_public_url"
+                        android:inputType="textUri"
+                        android:imeOptions="actionNext" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <!-- Server port -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/server_public_url_field_container"
+                android:id="@+id/server_port_field_container"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:helperText="@string/la_server_url_helper"
+                app:helperText="@string/la_server_port_helper"
                 app:helperTextEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/server_public_url_field"
+                    android:id="@+id/server_port_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/la_server_field_server_public_url"
-                    android:inputType="textUri"
+                    android:hint="@string/la_server_field_server_port"
+                    android:inputType="number"
                     android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>

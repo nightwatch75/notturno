@@ -44,8 +44,14 @@ jobs:
           cp app/build/outputs/apk/tempus/release/*.apk "out/notturno-${GITHUB_REF_NAME#v}.apk"
           cp app/build/outputs/apk/degoogled/release/*.apk "out/notturno-${GITHUB_REF_NAME#v}-degoogled.apk"
 
+      - name: Release notes from the changelog
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="## $VERSION" '$0 == v {on=1; next} /^## / {on=0} on' app/src/main/assets/CHANGELOG.md > notes.md
+          [ -s notes.md ] || echo "Release $VERSION" > notes.md
+
       - name: Publish release
         uses: softprops/action-gh-release@v3
         with:
-          generate_release_notes: true
+          body_path: notes.md
           files: out/*.apk

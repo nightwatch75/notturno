@@ -26,6 +26,7 @@ import com.eddyizm.tempus.subsonic.base.ApiResponse
 import com.eddyizm.tempus.subsonic.models.ResponseStatus
 import com.eddyizm.tempus.util.Constants
 import com.eddyizm.tempus.util.Preferences
+import com.eddyizm.tempus.util.QueueKind
 import com.eddyizm.tempus.util.FavoriteRegistry
 import com.google.common.collect.ImmutableList
 import com.google.common.util.concurrent.Futures
@@ -141,6 +142,23 @@ open class BaseSessionCallback(
             .setSlots(CommandButton.SLOT_OVERFLOW)
             .build()
 
+    @SuppressLint("PrivateResource")
+    private val customCommandShuffleAll =
+        CommandButton.Builder(CommandButton.ICON_SHUFFLE_ON)
+            .setDisplayName(context.getString(R.string.custom_command_shuffle_all))
+            .setSessionCommand(SessionCommand(Constants.CUSTOM_COMMAND_SHUFFLE_ALL, Bundle.EMPTY))
+            .setSlots(CommandButton.SLOT_OVERFLOW)
+            .build()
+
+    @Suppress("DEPRECATION")
+    private val customCommandGotoArtist =
+        CommandButton.Builder(CommandButton.ICON_UNDEFINED)
+            .setDisplayName(context.getString(R.string.custom_command_goto_artist))
+            .setSessionCommand(SessionCommand(Constants.CUSTOM_COMMAND_GOTO_ARTIST, Bundle.EMPTY))
+            .setIconResId(R.drawable.ic_goto_artist)
+            .setSlots(CommandButton.SLOT_OVERFLOW)
+            .build()
+
     // Standard transport controls. Kept pinned in setMediaButtonPreferences so the custom
     // overflow buttons can't take their place on the last track (see #663).
     private val previousButton =
@@ -172,7 +190,9 @@ open class BaseSessionCallback(
         customCommandToggleHeartLoading,
         customCommandInstantMixOn,
         customCommandInstantMixOff,
-        customCommandGotoAlbum
+        customCommandGotoAlbum,
+        customCommandShuffleAll,
+        customCommandGotoArtist
     )
 
     private val playerListener = object : Player.Listener {
@@ -334,7 +354,8 @@ open class BaseSessionCallback(
             "[repeatID]",
             "[shuffleID]",
             "[instantMixID]",
-            "[gotoAlbumID]")
+            "[gotoAlbumID]",
+            "[gotoArtistID]")
         val tabButton = listOfNotNull(
             Preferences.getCustomCommandFirstButton(),
             Preferences.getCustomCommandSecondButton()
@@ -372,9 +393,22 @@ open class BaseSessionCallback(
 
             "[instantMixID]" -> if (!MediaManager.continuousPlayIsRunning.get()) customCommandInstantMixOn
             else customCommandInstantMixOff
-            "[gotoAlbumID]" -> if (player.currentMediaItem?.mediaMetadata?.extras?.getString("albumId") != null) customCommandGotoAlbum else null
+            // On an album queue the disc turns into Shuffle all, which turns back into the disc.
+            "[gotoAlbumID]" -> when {
+                isAlbumQueue(player) -> customCommandShuffleAll
+                player.currentMediaItem?.mediaMetadata?.extras?.getString("albumId") != null -> customCommandGotoAlbum
+                else -> null
+            }
+            "[gotoArtistID]" -> if (player.currentMediaItem?.mediaMetadata?.extras?.getString("artistId") != null) customCommandGotoArtist else null
             else -> null
         }
+    }
+
+    private fun isAlbumQueue(player: Player): Boolean {
+        if (player.mediaItemCount < 2) return false
+        return QueueKind.isAlbumQueue((0 until player.mediaItemCount).map {
+            player.getMediaItemAt(it).mediaMetadata.extras?.getString("albumId")
+        })
     }
 
     // A star made in the app writes the registry and never the session, so the playing item keeps
@@ -501,7 +535,15 @@ open class BaseSessionCallback(
                 Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
             }
             Constants.CUSTOM_COMMAND_GOTO_ALBUM -> {
-                service.onGoToAlbum(session)
+                service.onGoToAlbum(session) { updateMediaNotificationCustomLayout(session) }
+                Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
+            }
+            Constants.CUSTOM_COMMAND_SHUFFLE_ALL -> {
+                service.onShuffleAll(session) { updateMediaNotificationCustomLayout(session) }
+                Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
+            }
+            Constants.CUSTOM_COMMAND_GOTO_ARTIST -> {
+                service.onGoToArtist(session) { updateMediaNotificationCustomLayout(session) }
                 Futures.immediateFuture(SessionResult(SessionResult.RESULT_SUCCESS))
             }
             Constants.CUSTOM_COMMAND_TOGGLE_SHUFFLE_MODE_ON -> {

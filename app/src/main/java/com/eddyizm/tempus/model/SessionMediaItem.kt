@@ -20,6 +20,7 @@ import com.eddyizm.tempus.subsonic.models.Child
 import com.eddyizm.tempus.subsonic.models.InternetRadioStation
 import com.eddyizm.tempus.subsonic.models.PodcastEpisode
 import com.eddyizm.tempus.subsonic.models.ReplayGainInfo
+import com.eddyizm.tempus.util.ArtistLine
 import com.eddyizm.tempus.util.Constants
 import com.eddyizm.tempus.util.MusicUtil
 import com.eddyizm.tempus.util.Preferences.getImageSize
@@ -262,7 +263,7 @@ class SessionMediaItem() {
                     .setDiscNumber(discNumber ?: 0)
                     .setReleaseYear(year ?: 0)
                     .setAlbumTitle(album)
-                    .setArtist(artist)
+                    .setArtist(ArtistLine.compose(type, artist, album))
                     .setArtworkUri(artworkUri)
                     .setUserRating(HeartRating(if (type == Constants.MEDIA_TYPE_MUSIC) FavoriteRegistry.resolve(FavoriteRegistry.Kind.SONG, id, starred != null) else starred != null))
                     .setSupportedCommands(

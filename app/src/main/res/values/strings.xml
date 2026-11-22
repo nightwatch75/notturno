@@ -562,6 +562,9 @@
     <string name="settings_show_mini_shuffle_button">Show Shuffle button</string>
     <string name="settings_show_mini_shuffle_button_summary">If enabled, show the shuffle button, remove the heart in the mini player</string>
     <string name="custom_command_goto_album">Go to album</string>
+    <string name="whats_new_title">What\'s new</string>
+    <string name="custom_command_goto_artist">Go to artist</string>
+    <string name="custom_command_shuffle_all">Shuffle all</string>
     <string name="settings_custom_command_first_button">First custom command</string>
     <string name="settings_custom_command_second_button">Second custom command</string>
 
@@ -889,8 +892,9 @@
     <string name="la_server_field_server_name">Server name (optional)</string>
     <string name="la_server_field_server_user">User name</string>
     <string name="la_server_field_server_pass">Password</string>
-    <string name="la_server_field_server_public_url">Server address</string>
-    <string name="la_server_url_helper">URL, IP or hostname, e.g. music.example.com or 192.168.1.10:4533</string>
+    <string name="la_server_field_server_public_url">Host or IP</string>
+    <string name="la_server_port_helper">Navidrome uses 4533. Leave it empty behind a reverse proxy.</string>
+    <string name="la_server_field_server_port">Port</string>
     <string name="la_server_section_advanced">Advanced</string>
     <string name="la_server_field_server_local_url">Local URL</string>
     <string name="la_server_field_server_cert">Client certificate (optional)</string>

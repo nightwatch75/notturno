@@ -35,6 +35,7 @@ import com.eddyizm.tempus.ui.activity.MainActivity;
 import com.eddyizm.tempus.ui.queue.PlayerQueueBridge;
 import com.eddyizm.tempus.viewmodel.PlaybackViewModel;
 import com.bumptech.glide.Glide;
+import com.eddyizm.tempus.util.ArtistLine;
 import com.eddyizm.tempus.util.Constants;
 import com.eddyizm.tempus.util.MappingUtil;
 import com.eddyizm.tempus.util.MusicUtil;
@@ -280,11 +281,8 @@ public class PlayerBottomSheetFragment extends Fragment {
             } else {
                 // Default (music, podcast, etc.)
                 bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setText(mediaMetadata.extras.getString("title"));
-                bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(
-                        mediaMetadata.artist != null
-                                ? mediaMetadata.artist
-                                : ""
-                );
+                String plainArtist = ArtistLine.plainArtist(mediaMetadata);
+                bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setText(plainArtist != null ? plainArtist : "");
 
                 bind.playerHeaderLayout.playerHeaderMediaTitleLabel.setVisibility(mediaMetadata.extras.getString("title") != null && !Objects.equals(mediaMetadata.extras.getString("title"), "") ? View.VISIBLE : View.GONE);
                 bind.playerHeaderLayout.playerHeaderMediaArtistLabel.setVisibility(

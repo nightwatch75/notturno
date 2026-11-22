@@ -704,6 +704,24 @@ object Preferences {
     }
 
     @JvmStatic
+    fun getLastSeenVersion(): String? =
+        App.getInstance().preferences.getString("last_seen_version", null)
+
+    @JvmStatic
+    fun setLastSeenVersion(version: String) {
+        App.getInstance().preferences.edit().putString("last_seen_version", version).apply()
+    }
+
+    @JvmStatic
+    fun getArtistShuffleId(): String? =
+        App.getInstance().preferences.getString("artist_shuffle_id", null)
+
+    @JvmStatic
+    fun setArtistShuffleId(artistId: String?) {
+        App.getInstance().preferences.edit().putString("artist_shuffle_id", artistId).apply()
+    }
+
+    @JvmStatic
     fun isRadioTrackCoversEnabled(): Boolean {
         return App.getInstance().preferences.getBoolean(RADIO_TRACK_COVERS, true)
     }

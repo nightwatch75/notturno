@@ -65,6 +65,7 @@ import com.eddyizm.tempus.util.DownloadRepair;
 import com.eddyizm.tempus.repository.PlaylistRepository;
 import com.eddyizm.tempus.util.ConnectionUtil;
 import com.eddyizm.tempus.util.Preferences;
+import com.eddyizm.tempus.util.WhatsNew;
 import com.eddyizm.tempus.viewmodel.MainViewModel;
 import com.eddyizm.tempus.util.FavoriteRegistry;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -166,6 +167,7 @@ public class MainActivity extends BaseActivity {
         checkConnectionType();
         getOpenSubsonicExtensions();
         checkTempusUpdate();
+        WhatsNew.showIfNeeded(this);
 
         DownloadRepair.repairIfNeeded(this);
         AlbumArtistBackfill.backfillIfNeeded();

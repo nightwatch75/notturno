@@ -34,3 +34,34 @@ class ServerAddressTest {
 
     @Test fun displayNameOfGarbageIsNull() = assertNull(ServerAddress.displayName("not a url"))
 }
+
+class ServerAddressPartsTest {
+    @org.junit.Test fun buildsFromSchemeHostAndPort() =
+        org.junit.Assert.assertEquals("http://minchius.ddns.net:4533", ServerAddress.build("http", "minchius.ddns.net", "4533"))
+
+    @org.junit.Test fun emptyPortLeavesItOut() =
+        org.junit.Assert.assertEquals("https://music.example.com", ServerAddress.build("https", "music.example.com", ""))
+
+    @org.junit.Test fun portGoesBeforeAPath() =
+        org.junit.Assert.assertEquals("https://nas.example.com:4533/navidrome", ServerAddress.build("https", "nas.example.com/navidrome", "4533"))
+
+    @org.junit.Test fun pastedUrlOverridesSchemeAndPort() =
+        org.junit.Assert.assertEquals("https://music.example.com:8443", ServerAddress.build("http", "https://music.example.com:8443/", "4533"))
+
+    @org.junit.Test fun portTypedInTheHostWinsOverThePortField() =
+        org.junit.Assert.assertEquals("http://192.168.1.10:4600", ServerAddress.build("http", "192.168.1.10:4600", "4533"))
+
+    @org.junit.Test fun blankHostGivesEmpty() =
+        org.junit.Assert.assertEquals("", ServerAddress.build("http", "  ", "4533"))
+
+    @org.junit.Test fun splitsASavedAddress() {
+        val parts = ServerAddress.split("http://minchius.ddns.net:4533")
+        org.junit.Assert.assertEquals(ServerAddress.Parts("http", "minchius.ddns.net", "4533"), parts)
+    }
+
+    @org.junit.Test fun splitKeepsThePathInTheHost() =
+        org.junit.Assert.assertEquals(ServerAddress.Parts("https", "nas.example.com/navidrome", ""), ServerAddress.split("https://nas.example.com/navidrome"))
+
+    @org.junit.Test fun splitWithoutSchemeDefaultsToHttps() =
+        org.junit.Assert.assertEquals(ServerAddress.Parts("https", "music.example.com", ""), ServerAddress.split("music.example.com"))
+}

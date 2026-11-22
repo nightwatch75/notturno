@@ -27,6 +27,7 @@ import com.eddyizm.tempus.interfaces.MediaIndexCallback;
 import com.eddyizm.tempus.model.Chronology;
 import com.eddyizm.tempus.model.Queue;
 import com.eddyizm.tempus.repository.ChronologyRepository;
+import com.eddyizm.tempus.repository.ArtistRepository;
 import com.eddyizm.tempus.repository.QueueRepository;
 import com.eddyizm.tempus.repository.SongRepository;
 import com.eddyizm.tempus.subsonic.models.Child;
@@ -37,6 +38,7 @@ import com.eddyizm.tempus.util.MappingUtil;
 import com.eddyizm.tempus.util.MusicUtil;
 import com.eddyizm.tempus.util.ConnectionUtil;
 import com.eddyizm.tempus.util.OpenSubsonicExtensionsUtil;
+import com.eddyizm.tempus.util.ArtistLine;
 import com.eddyizm.tempus.util.ArtistSpread;
 import com.eddyizm.tempus.util.Preferences;
 import com.eddyizm.tempus.viewmodel.PlaybackViewModel;
@@ -809,8 +811,46 @@ public class MediaManager {
     }
 
     public static void markGlobalShuffle(List<String> songIds) {
+        clearArtistShuffle();
         setGlobalShuffleIds(new HashSet<>(songIds));
         globalShuffleRefillAt = 0L;
+    }
+
+    private static volatile long artistShuffleRefillAt = 0L;
+
+    /** The queue stays on this artist: when it ends, more random songs of the artist are added. Saved in the preferences. */
+    public static void markArtistShuffle(String artistId) {
+        clearGlobalShuffle();
+        Preferences.setArtistShuffleId(artistId);
+        artistShuffleRefillAt = 0L;
+    }
+
+    public static void clearArtistShuffle() {
+        Preferences.setArtistShuffleId(null);
+    }
+
+    /**
+     * Call it when the last item of the queue starts. If the queue is an artist shuffle and the item is of that artist,
+     * adds random songs of the artist and returns true.
+     */
+    public static boolean continueArtistShuffle(MediaItem lastItem, QueueTarget queueTarget) {
+        String artistId = Preferences.getArtistShuffleId();
+        Bundle extras = lastItem.mediaMetadata.extras;
+        if (artistId == null || extras == null || !artistId.equals(extras.getString("artistId"))) return false;
+        long now = SystemClock.elapsedRealtime();
+        if (now - artistShuffleRefillAt < GLOBAL_SHUFFLE_RETRY_MS) return true;
+        artistShuffleRefillAt = now;
+
+        new ArtistRepository().getArtistAllSongs(artistId, songs -> {
+            if (songs == null || songs.isEmpty() || !artistId.equals(Preferences.getArtistShuffleId())) return;
+            List<Child> fresh = dedupAgainstQueue(songs, queueTarget);
+            if (fresh.isEmpty()) fresh = new ArrayList<>(songs); // the queue already holds the whole artist
+            Collections.shuffle(fresh);
+            if (fresh.size() > GLOBAL_SHUFFLE_BATCH) fresh = new ArrayList<>(fresh.subList(0, GLOBAL_SHUFFLE_BATCH));
+            Log.d(TAG, "Artist shuffle: adding " + fresh.size() + " tracks");
+            enqueue(queueTarget, fresh, true);
+        });
+        return true;
     }
 
     /** The queue is no longer a global shuffle (the user chose an album, for instance). */
@@ -848,8 +888,7 @@ public class MediaManager {
                 MusicUtil.ratingFilter(random);
                 List<Child> fresh = dedupAgainstQueue(random, queueTarget);
                 if (fresh.isEmpty()) fresh = random; // the queue already holds the whole library
-                CharSequence lastArtist = lastItem.mediaMetadata.artist;
-                fresh = spreadArtists(fresh, lastArtist != null ? lastArtist.toString() : null);
+                fresh = spreadArtists(fresh, ArtistLine.plainArtist(lastItem.mediaMetadata));
                 Log.d(TAG, "Global shuffle: adding " + fresh.size() + " random tracks");
 
                 Set<String> ids = new HashSet<>(globalShuffleIds());

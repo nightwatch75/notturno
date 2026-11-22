@@ -13,6 +13,7 @@ import androidx.media3.common.util.UnstableApi;
 import com.eddyizm.tempus.R;
 import com.eddyizm.tempus.databinding.DialogTrackInfoBinding;
 import com.eddyizm.tempus.glide.CustomGlideRequest;
+import com.eddyizm.tempus.util.ArtistLine;
 import com.eddyizm.tempus.util.AssetLinkUtil;
 import com.eddyizm.tempus.util.Constants;
 import com.eddyizm.tempus.util.MusicUtil;
@@ -124,10 +125,8 @@ public class TrackInfoDialog extends DialogFragment {
             bind.trakArtistInfoTextView.setText(stationName);
         } else {
             bind.trakTitleInfoTextView.setText(mediaMetadata.title);
-            bind.trakArtistInfoTextView.setText(
-                    mediaMetadata.artist != null
-                            ? mediaMetadata.artist
-                            : "");
+            String plainArtist = ArtistLine.plainArtist(mediaMetadata);
+            bind.trakArtistInfoTextView.setText(plainArtist != null ? plainArtist : "");
         }
 
         if (mediaMetadata.extras != null) {

@@ -71,6 +71,7 @@ class LoginServerFragment : Fragment() {
     }
 
     fun init() {
+        initAddressFields()
         setupServerDropdownSelector()
         initTestButton()
         initCreateOrUpdateButton()
@@ -80,6 +81,26 @@ class LoginServerFragment : Fragment() {
         initClientCertSwitch()
         initClientCertField()
         initCustomHeadersSwitch()
+    }
+
+    private fun initAddressFields() {
+        binding.serverSchemeField.setAdapter(ArrayAdapter(requireContext(), R.layout.item_login_server2, SCHEMES))
+        showAddress("")
+    }
+
+    /** The full address built from the scheme, host and port fields. */
+    private fun publicUrl(): String = ServerAddress.build(
+        binding.serverSchemeField.text.toString(),
+        binding.serverPublicUrlField.text.toString(),
+        binding.serverPortField.text.toString()
+    )
+
+    /** Fills the three address fields from a saved address. Empty gives the defaults: https and port 4533. */
+    private fun showAddress(address: String) {
+        val parts = if (address.isBlank()) ServerAddress.Parts("https", "", DEFAULT_PORT) else ServerAddress.split(address)
+        binding.serverSchemeField.setText(parts.scheme, false)
+        binding.serverPublicUrlField.setText(parts.host)
+        binding.serverPortField.setText(parts.port)
     }
 
     @OptIn(UnstableApi::class)
@@ -161,7 +182,7 @@ class LoginServerFragment : Fragment() {
         binding.serverNameField.setText("")
         binding.serverUserField.setText("")
         binding.serverPasswordField.setText("")
-        binding.serverPublicUrlField.setText("")
+        showAddress("")
         binding.serverLocalUrlField.setText("")
         binding.serverCertField.setText("")
         binding.serverHeadersSwitch.isChecked = false
@@ -176,7 +197,7 @@ class LoginServerFragment : Fragment() {
         binding.serverNameField.setText(serverList[position].serverName)
         binding.serverUserField.setText(serverList[position].username)
         binding.serverPasswordField.setText(serverList[position].password)
-        binding.serverPublicUrlField.setText(serverList[position].address)
+        showAddress(serverList[position].address)
 
         /* Optional field */
         val localAddress: String? = serverList[position].localAddress
@@ -365,10 +386,10 @@ class LoginServerFragment : Fragment() {
 
         val errMsgEmpty: String = getString(R.string.la_server_field_server_empty_error)
         val errMsgUrl: String = getString(R.string.la_server_field_server_url_error)
-        binding.serverPublicUrlField.setText(ServerAddress.normalize(binding.serverPublicUrlField.text.toString()))
+        publicUrl().let { if (it.isNotEmpty()) showAddress(it) }
         binding.serverLocalUrlField.setText(ServerAddress.normalize(binding.serverLocalUrlField.text.toString()))
         if (binding.serverNameField.text.isNullOrBlank()) {
-            val url = binding.serverPublicUrlField.text.toString()
+            val url = publicUrl()
             binding.serverNameField.setText(ServerAddress.displayName(url) ?: url)
         }
         if (binding.serverNameField.text.toString().isEmpty()) {
@@ -380,10 +401,10 @@ class LoginServerFragment : Fragment() {
         } else if (binding.serverPasswordField.text.toString().isEmpty()) {
             binding.serverPasswordField.error = errMsgEmpty
             return false
-        } else if (binding.serverPublicUrlField.text.toString().isEmpty()) {
+        } else if (publicUrl().isEmpty()) {
             binding.serverPublicUrlField.error = errMsgEmpty
             return false
-        } else if (!urlSanitization(binding.serverPublicUrlField.text.toString())) {
+        } else if (!urlSanitization(publicUrl())) {
             binding.serverPublicUrlField.error = errMsgUrl
             return false
         } else if (binding.serverLocalUrlSwitch.isChecked
@@ -420,7 +441,7 @@ class LoginServerFragment : Fragment() {
         serverName = binding.serverNameField.text.toString(),
         username = binding.serverUserField.text.toString(),
         password = binding.serverPasswordField.text.toString(),
-        address = binding.serverPublicUrlField.text.toString(),
+        address = publicUrl(),
         localAddress = binding.serverLocalUrlField.text.toString(),
         timestamp = System.currentTimeMillis(),
         isLowSecurity = binding.serverPlaintextPassowrd.isChecked,
@@ -535,6 +556,9 @@ class LoginServerFragment : Fragment() {
     }
 
     companion object {
+        private val SCHEMES = arrayOf("http", "https")
+        private const val DEFAULT_PORT = "4533"
+
         @JvmStatic
         fun newInstance(singlePageMode: Boolean = false): LoginServerFragment =
             LoginServerFragment().apply {

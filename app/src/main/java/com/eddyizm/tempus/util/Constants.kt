@@ -144,6 +144,8 @@ object Constants {
     const val CUSTOM_COMMAND_INSTANT_MIX_ON = "android.media3.session.demo.INSTANT_MIX_ON"
     const val CUSTOM_COMMAND_INSTANT_MIX_OFF = "android.media3.session.demo.INSTANT_MIX_OFF"
     const val CUSTOM_COMMAND_GOTO_ALBUM = "com.eddyizm.tempus.GOTO_ALBUM"
+    const val CUSTOM_COMMAND_SHUFFLE_ALL = "com.eddyizm.tempus.SHUFFLE_ALL"
+    const val CUSTOM_COMMAND_GOTO_ARTIST = "com.eddyizm.tempus.GOTO_ARTIST"
 
     // "Play next" shuffle-order fixup: the UI inserts the items on the timeline, then
     // asks the service (which owns the ExoPlayer) to move them next in the shuffle order.

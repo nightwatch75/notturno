@@ -396,6 +396,7 @@
         <item>Shuffle</item>
         <item>Instant mix</item>
         <item>Go to album</item>
+        <item>Go to artist</item>
     </string-array>
     <string-array name="custom_commands_values" translatable="false">
         <item>[heartID]</item>
@@ -403,6 +404,7 @@
         <item>[shuffleID]</item>
         <item>[instantMixID]</item>
         <item>[gotoAlbumID]</item>
+        <item>[gotoArtistID]</item>
     </string-array>
 
     <string-array name="la_backups_automatic_dropdown_items">

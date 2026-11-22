@@ -43,6 +43,12 @@ import com.eddyizm.tempus.equalizer.ParametricBackend
 import com.eddyizm.tempus.equalizer.ParametricEqAudioProcessor
 import androidx.mediarouter.media.MediaRouter
 import com.eddyizm.tempus.repository.AlbumRepository
+import com.eddyizm.tempus.repository.ArtistRepository
+import com.eddyizm.tempus.repository.SongRepository
+import com.eddyizm.tempus.subsonic.models.Child
+import com.eddyizm.tempus.util.ArtistLine
+import com.eddyizm.tempus.util.MusicUtil
+import androidx.lifecycle.Observer
 import com.eddyizm.tempus.repository.QueueRepository
 import com.eddyizm.tempus.subsonic.base.ApiResponse
 import com.eddyizm.tempus.subsonic.models.NowPlayingEntry
@@ -82,6 +88,7 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
         const val ACTION_EQUALIZER_UPDATED = "com.eddyizm.tempus.service.EQUALIZER_UPDATED"
         const val ACTION_RELOAD_EQUALIZER = "com.eddyizm.tempus.service.ACTION_RELOAD_EQUALIZER"
         private const val PREWARM_WINDOW_SIZE = 5
+        private const val RANDOM_QUEUE_BATCH = 100
         var activeBrowserCount = 0
     }
 
@@ -485,6 +492,7 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
 
                     if (player.nextMediaItemIndex == C.INDEX_UNSET) {
                         if (!handled && !MediaManager.continueGlobalShuffle(currentMediaItem, this@BaseMediaService)
+                            && !MediaManager.continueArtistShuffle(currentMediaItem, this@BaseMediaService)
                             && Preferences.isContinuousPlayEnabled()) {
                             MediaManager.continuousPlay(currentMediaItem, this@BaseMediaService)
                         }
@@ -870,7 +878,7 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
     }
 
     /** Keeps the song on air and turns the queue into its album: the other tracks come before and after it. */
-    open fun onGoToAlbum(session: MediaSession) {
+    open fun onGoToAlbum(session: MediaSession, onDone: Runnable? = null) {
         val player = session.player
         val playing = player.currentMediaItem ?: return
         val albumId = playing.mediaMetadata.extras?.getString("albumId") ?: return
@@ -879,6 +887,7 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
             if (position < 0 || player.currentMediaItem?.mediaId != playing.mediaId) return@getAlbumTracks
             val items = MappingUtil.mapMediaItems(tracks)
             MediaManager.clearGlobalShuffle()
+            MediaManager.clearArtistShuffle()
             // The player alone changes below: without this the saved queue stays the old one and comes back at the next start.
             QueueRepository().insertAll(tracks, true, 0)
             val index = player.currentMediaItemIndex
@@ -886,7 +895,59 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
             player.removeMediaItems(0, index)
             player.addMediaItems(0, items.subList(0, position))
             player.addMediaItems(items.subList(position + 1, items.size))
+            onDone?.run()
         }
+    }
+
+    /** Keeps the song on air and fills the queue with random songs of its artist, which go on when the queue ends. */
+    open fun onGoToArtist(session: MediaSession, onDone: Runnable? = null) {
+        val player = session.player
+        val playing = player.currentMediaItem ?: return
+        val artistId = playing.mediaMetadata.extras?.getString("artistId") ?: return
+        ArtistRepository().getArtistAllSongs(artistId) { songs ->
+            val others = songs.filter { it.id != playing.mediaId }.shuffled().take(RANDOM_QUEUE_BATCH)
+            if (others.isEmpty()) return@getArtistAllSongs
+            replaceQueueAfterCurrent(player, playing, others) {
+                MediaManager.markArtistShuffle(artistId)
+                onDone?.run()
+            }
+        }
+    }
+
+    /** Keeps the song on air and fills the queue with random songs of the whole library, endlessly. */
+    open fun onShuffleAll(session: MediaSession, onDone: Runnable? = null) {
+        val player = session.player
+        val playing = player.currentMediaItem ?: return
+        val randomSongs = SongRepository().getRandomSample(RANDOM_QUEUE_BATCH, null, null)
+        randomSongs.observeForever(object : Observer<List<Child>> {
+            override fun onChanged(value: List<Child>) {
+                randomSongs.removeObserver(this)
+                if (value.isEmpty()) return
+                MusicUtil.ratingFilter(value)
+                val others = MediaManager.spreadArtists(value.filter { it.id != playing.mediaId }, ArtistLine.plainArtist(playing.mediaMetadata))
+                if (others.isEmpty()) return
+                replaceQueueAfterCurrent(player, playing, others) {
+                    MediaManager.markGlobalShuffle(listOf(playing.mediaId) + others.map { it.id })
+                    onDone?.run()
+                }
+            }
+        })
+    }
+
+    /** Maps [songs] off the main thread, then keeps only [playing] and puts them after it. [onDone] runs once the queue is saved. */
+    private fun replaceQueueAfterCurrent(player: Player, playing: MediaItem, songs: List<Child>, onDone: () -> Unit) {
+        Thread {
+            val items = MappingUtil.mapMediaItems(songs)
+            Handler(player.applicationLooper).post {
+                if (serviceDestroyed || player.currentMediaItem?.mediaId != playing.mediaId) return@post
+                val index = player.currentMediaItemIndex
+                player.removeMediaItems(index + 1, player.mediaItemCount)
+                player.removeMediaItems(0, index)
+                player.addMediaItems(items)
+                QueueRepository().insertAll(listOf(MappingUtil.mapToChild(playing)) + songs, true, 0)
+                onDone()
+            }
+        }.start()
     }
 
     fun setPlayer(oldPlayer: Player?, newPlayer: Player) {
@@ -1153,7 +1214,7 @@ open class BaseMediaService : MediaLibraryService(), MediaManager.QueueTarget {
         val mi = player.currentMediaItem
         val title = mi?.mediaMetadata?.title?.toString()
             ?: mi?.mediaMetadata?.extras?.getString("title")
-        val artist = mi?.mediaMetadata?.artist?.toString()
+        val artist = mi?.mediaMetadata?.let { ArtistLine.plainArtist(it) }
             ?: mi?.mediaMetadata?.extras?.getString("artist")
         val album = mi?.mediaMetadata?.albumTitle?.toString()
             ?: mi?.mediaMetadata?.extras?.getString("album")
