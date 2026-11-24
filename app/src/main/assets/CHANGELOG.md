@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.32.1.4
+- Android Auto: the artist and album line now also shows for songs started from the phone and for downloaded songs.
+
 ## 4.32.1.3
 - Android Auto: the disc button (Go to album) turns into Shuffle all while an album plays, and back.
 - Android Auto: new Go to artist button, with endless random songs of the artist. Pick it in Settings, custom buttons.

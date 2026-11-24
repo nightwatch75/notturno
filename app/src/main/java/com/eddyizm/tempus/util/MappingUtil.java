@@ -155,7 +155,7 @@ public class MappingUtil {
                                     .setDiscNumber(media.getDiscNumber() != null ? media.getDiscNumber() : 0)
                                     .setReleaseYear(media.getYear() != null ? media.getYear() : 0)
                                     .setAlbumTitle(media.getAlbum())
-                                    .setArtist(media.getArtist())
+                                    .setArtist(ArtistLine.compose(mediaTypeOf(media.getType()), media.getArtist(), media.getAlbum()))
                                     .setArtworkUri(artworkUri)
                                     .setUserRating(new HeartRating(FavoriteRegistry.resolve(FavoriteRegistry.Kind.SONG, media.getId(), media.getStarred() != null && media.getStarred().getTime() > 0)))
                                     .setSupportedCommands(
@@ -285,6 +285,8 @@ public class MappingUtil {
         Bundle bundle = new Bundle();
         bundle.putInt("samplingRate", media.getSamplingRate() != null ? media.getSamplingRate() : 0);
         bundle.putInt("bitDepth", media.getBitDepth() != null ? media.getBitDepth() : 0);
+        bundle.putString("artist", media.getArtist());
+        bundle.putString("type", mediaTypeOf(media.getType()));
 
         return new MediaItem.Builder()
                 .setMediaId(media.getId())
@@ -295,7 +297,7 @@ public class MappingUtil {
                                 .setDiscNumber(media.getDiscNumber() != null ? media.getDiscNumber() : 0)
                                 .setReleaseYear(media.getYear() != null ? media.getYear() : 0)
                                 .setAlbumTitle(media.getAlbum())
-                                .setArtist(media.getArtist())
+                                .setArtist(ArtistLine.compose(mediaTypeOf(media.getType()), media.getArtist(), media.getAlbum()))
                                 .setExtras(bundle)
                                 .setIsBrowsable(false)
                                 .setIsPlayable(true)
